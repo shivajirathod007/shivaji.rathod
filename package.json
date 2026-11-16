@@ -48,7 +48,7 @@
     "jsdom": "^29.1.1",
     "sharp": "^0.35.5",
     "tailwindcss": "4.3.3",
-    "typescript": "^5",
+    "typescript": "^7",
     "vitest": "^2.1.9"
   },
   "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
