@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Shield, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 const NAV_LINKS = [
@@ -48,7 +48,7 @@ export function Navbar() {
           }
         });
       },
-      { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      { rootMargin: '-25% 0px -60% 0px', threshold: 0 }
     );
 
     SECTION_IDS.forEach((id) => {
@@ -83,46 +83,46 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 pointer-events-none">
+      <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-5 pointer-events-none">
         <nav
-          className={`mx-auto flex max-w-6xl items-center justify-between px-5 py-2.5 rounded-full pointer-events-auto transition-all duration-300 ${
+          className={`mx-auto flex max-w-7xl items-center justify-between px-6 py-3 rounded-full pointer-events-auto transition-all duration-300 ${
             scrolled
-              ? 'bg-[#0b0d14]/90 backdrop-blur-xl border border-white/[0.1] shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
+              ? 'bg-[#090b12]/92 backdrop-blur-xl border border-white/[0.12] shadow-[0_12px_40px_rgba(0,0,0,0.6)]'
               : 'bg-transparent border border-transparent'
           }`}
           aria-label="Main navigation"
         >
-          {/* Brand Wordmark */}
+          {/* Brand Wordmark (Bigger & Bolder) */}
           <Link
             href="/"
-            className="flex items-center gap-2 group focus-visible:outline-none"
+            className="flex items-center gap-3 group focus-visible:outline-none"
             aria-label="Shivaji Rathod — home"
           >
-            <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-105 transition-transform">
-              <span className="font-mono text-xs font-bold">SR</span>
+            <div className="w-9 h-9 rounded-xl bg-accent/15 border border-accent/35 flex items-center justify-center text-accent group-hover:scale-105 transition-transform">
+              <span className="font-mono text-xs font-bold tracking-wider">SR</span>
             </div>
-            <span className="font-display font-bold text-sm tracking-tight text-white group-hover:text-accent transition-colors">
+            <span className="font-display font-bold text-base sm:text-lg tracking-tight text-white group-hover:text-accent transition-colors">
               Shivaji Rathod
             </span>
           </Link>
 
-          {/* Desktop Nav Links */}
-          <ul className="hidden lg:flex items-center gap-1 list-none m-0 p-0">
+          {/* Desktop Nav Links (Prominent, High-Contrast) */}
+          <ul className="hidden lg:flex items-center gap-1.5 list-none m-0 p-0">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`relative px-3.5 py-1.5 text-xs font-mono font-medium rounded-full transition-colors hover:text-white ${
+                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:text-white ${
                     isActive(link.href)
-                      ? 'text-white bg-white/[0.08]'
-                      : 'text-fg-muted'
+                      ? 'text-white font-semibold'
+                      : 'text-fg-muted hover:bg-white/[0.04]'
                   }`}
                 >
                   {link.label}
                   {isActive(link.href) && (
                     <motion.span
                       layoutId="nav-indicator"
-                      className="absolute inset-0 rounded-full border border-white/[0.15] bg-white/[0.05]"
+                      className="absolute inset-0 rounded-full border border-white/[0.18] bg-white/[0.08]"
                       transition={{ type: 'spring', bounce: 0.2, duration: 0.3 }}
                       aria-hidden="true"
                     />
@@ -133,27 +133,27 @@ export function Navbar() {
           </ul>
 
           {/* Right Action & Controls */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <ThemeToggle />
 
             {/* Read Writeups CTA */}
             <Link
               href="/blog"
-              className="hidden sm:inline-flex items-center gap-1.5 h-8 px-4 rounded-full text-xs font-mono font-semibold bg-accent text-white hover:brightness-110 shadow-[0_0_16px_rgba(249,115,22,0.35)] transition-all"
+              className="hidden sm:inline-flex items-center gap-2 h-9 px-5 rounded-full text-xs sm:text-sm font-semibold bg-accent text-white hover:brightness-110 shadow-[0_0_20px_rgba(249,115,22,0.4)] transition-all"
             >
               <span>Writeups</span>
-              <ArrowUpRight size={13} />
+              <ArrowUpRight size={14} />
             </Link>
 
             {/* Mobile Hamburger Toggle */}
             <button
-              className="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.03] text-fg-muted hover:text-white transition-colors"
+              className="lg:hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-white/[0.12] bg-white/[0.04] text-fg-muted hover:text-white transition-colors"
               onClick={() => setMobileOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileOpen}
               aria-controls="mobile-drawer"
             >
-              <Menu size={16} />
+              <Menu size={18} />
             </button>
           </div>
         </nav>
@@ -168,7 +168,7 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md lg:hidden"
+              className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md lg:hidden"
               onClick={() => setMobileOpen(false)}
               aria-hidden="true"
             />
@@ -182,28 +182,28 @@ export function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', bounce: 0, duration: 0.3 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-72 bg-[#0c0e16] border-l border-white/[0.1] p-6 lg:hidden flex flex-col justify-between"
+              className="fixed top-0 right-0 bottom-0 z-50 w-80 bg-[#0a0c14] border-l border-white/[0.1] p-7 lg:hidden flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/[0.08]">
-                  <span className="font-display font-bold text-base text-white">
+                  <span className="font-display font-bold text-lg text-white">
                     Shivaji Rathod
                   </span>
                   <button
                     onClick={() => setMobileOpen(false)}
-                    className="p-1.5 rounded-lg text-fg-muted hover:text-white transition-colors"
+                    className="p-2 rounded-lg text-fg-muted hover:text-white transition-colors"
                     aria-label="Close navigation menu"
                   >
-                    <X size={18} />
+                    <X size={20} />
                   </button>
                 </div>
 
-                <ul className="flex flex-col gap-1.5 list-none m-0 p-0">
+                <ul className="flex flex-col gap-2 list-none m-0 p-0">
                   {NAV_LINKS.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className={`block px-3.5 py-2 rounded-xl text-sm font-mono transition-colors ${
+                        className={`block px-4 py-2.5 rounded-xl text-base transition-colors ${
                           isActive(link.href)
                             ? 'text-accent bg-accent/10 border border-accent/20 font-semibold'
                             : 'text-fg-muted hover:text-white hover:bg-white/[0.04]'
@@ -221,10 +221,10 @@ export function Navbar() {
                 <Link
                   href="/blog"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full h-10 rounded-xl text-xs font-mono font-semibold bg-accent text-white"
+                  className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-semibold bg-accent text-white"
                 >
                   <span>Explore Writeups</span>
-                  <ArrowUpRight size={14} />
+                  <ArrowUpRight size={15} />
                 </Link>
               </div>
             </motion.div>

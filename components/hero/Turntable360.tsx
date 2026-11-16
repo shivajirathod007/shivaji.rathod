@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { FRAMES } from '@/lib/turntable-manifest.generated';
-import { RotateCcw, ChevronLeft, ChevronRight, Compass } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const FRAME_COUNT = FRAMES.length; // 14 frames
 const DEGREES_PER_FRAME = 360 / FRAME_COUNT; // ~25.71°
@@ -12,37 +10,26 @@ export function Turntable360() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [currentAngle, setCurrentAngle] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // References for physics and rAF
-  const angleRef = useRef(0);
-  const velocityRef = useRef(0);
+  // Smooth lerp physics state
+  const targetAngleRef = useRef(0);
+  const currentAngleRef = useRef(0);
+  const isPointerDownRef = useRef(false);
   const lastPointerXRef = useRef<number | null>(null);
-  const isDraggingRef = useRef(false);
+  const dragVelocityRef = useRef(0);
+
   const bitmapsRef = useRef<(ImageBitmap | null)[]>(new Array(FRAME_COUNT).fill(null));
   const rafIdRef = useRef<number>(0);
 
-  // Helper to get nearest frame index
+  // Helper to map continuous angle to nearest discrete frame
   const getFrameIndex = (angle: number) => {
     const normalized = ((angle % 360) + 360) % 360;
     return Math.round(normalized / DEGREES_PER_FRAME) % FRAME_COUNT;
   };
 
-  const getOrientationLabel = (angle: number) => {
-    const norm = Math.round(((angle % 360) + 360) % 360);
-    if (norm >= 338 || norm < 23) return 'FRONT · 0°';
-    if (norm >= 23 && norm < 68) return 'FRONT-RIGHT · 45°';
-    if (norm >= 68 && norm < 113) return 'RIGHT PROFILE · 90°';
-    if (norm >= 113 && norm < 158) return 'REAR-RIGHT · 135°';
-    if (norm >= 158 && norm < 203) return 'BACK · 180°';
-    if (norm >= 203 && norm < 248) return 'REAR-LEFT · 225°';
-    if (norm >= 248 && norm < 293) return 'LEFT PROFILE · 270°';
-    return 'FRONT-LEFT · 315°';
-  };
-
-  // Render active frame to canvas
+  // Render current frame to canvas
   const renderCurrentFrame = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -54,11 +41,11 @@ export function Turntable360() {
     ctx.clearRect(0, 0, cw, ch);
 
     // Exact single discrete frame - 100% crisp, zero ghosting
-    const frameIdx = getFrameIndex(angleRef.current);
+    const frameIdx = getFrameIndex(currentAngleRef.current);
     const bitmap = bitmapsRef.current[frameIdx];
 
     if (bitmap) {
-      // Draw bitmap scaled to fit while preserving aspect ratio
+      // Scale to fit canvas while preserving aspect ratio
       const imgAspect = bitmap.width / bitmap.height;
       const canvasAspect = cw / ch;
       let drawW = cw;
@@ -80,19 +67,25 @@ export function Turntable360() {
     }
   }, []);
 
-  // Smooth inertial physics loop
-  const updatePhysics = useCallback(() => {
-    if (!isDraggingRef.current) {
-      if (Math.abs(velocityRef.current) > 0.05) {
-        angleRef.current += velocityRef.current;
-        velocityRef.current *= 0.88; // Gentle friction deceleration
-        renderCurrentFrame();
-        setCurrentAngle(Math.round(((angleRef.current % 360) + 360) % 360));
-      } else {
-        velocityRef.current = 0;
-      }
+  // Butter-smooth 60fps lerp animation loop
+  const animationLoop = useCallback(() => {
+    if (isPointerDownRef.current) {
+      // While dragging: apply velocity
+      targetAngleRef.current += dragVelocityRef.current;
+      dragVelocityRef.current *= 0.85;
     }
-    rafIdRef.current = requestAnimationFrame(updatePhysics);
+
+    // Smooth lerp: current angle slides toward target angle with elastic damping
+    const delta = targetAngleRef.current - currentAngleRef.current;
+    if (Math.abs(delta) > 0.04) {
+      currentAngleRef.current += delta * 0.14; // Smooth interpolation factor
+      renderCurrentFrame();
+    } else if (currentAngleRef.current !== targetAngleRef.current) {
+      currentAngleRef.current = targetAngleRef.current;
+      renderCurrentFrame();
+    }
+
+    rafIdRef.current = requestAnimationFrame(animationLoop);
   }, [renderCurrentFrame]);
 
   // Load all 14 frames into ImageBitmaps
@@ -100,7 +93,7 @@ export function Turntable360() {
     let cancelled = false;
 
     async function loadAllFrames() {
-      // Priority load frame 0 for instant display
+      // 1. Priority load frame 0 for instant sharp render
       try {
         const resp0 = await fetch(FRAMES[0].desktop);
         const blob0 = await resp0.blob();
@@ -113,7 +106,7 @@ export function Turntable360() {
         console.error('Failed to load initial turntable frame', err);
       }
 
-      // Background load the remaining 13 frames
+      // 2. Load the rest of the 13 frames sequentially
       for (let i = 1; i < FRAME_COUNT; i++) {
         if (cancelled) return;
         try {
@@ -130,13 +123,13 @@ export function Turntable360() {
     }
 
     loadAllFrames();
-    rafIdRef.current = requestAnimationFrame(updatePhysics);
+    rafIdRef.current = requestAnimationFrame(animationLoop);
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(rafIdRef.current);
     };
-  }, [renderCurrentFrame, updatePhysics]);
+  }, [renderCurrentFrame, animationLoop]);
 
   // DPR-aware dynamic canvas sizing
   useEffect(() => {
@@ -160,33 +153,58 @@ export function Turntable360() {
     return () => resizeObserver.disconnect();
   }, [renderCurrentFrame]);
 
-  // Pointer drag controls (contained to the portrait)
-  const handlePointerDown = (e: React.PointerEvent) => {
-    setIsDragging(true);
-    isDraggingRef.current = true;
-    velocityRef.current = 0;
-    lastPointerXRef.current = e.clientX;
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  // ─── HOVER TO ROTATE HANDLERS ──────────────────────────────────────────────
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!containerRef.current) return;
+
+    if (isPointerDownRef.current) {
+      // Dragging mode (Touch or Click-Drag)
+      if (lastPointerXRef.current !== null) {
+        const deltaX = e.clientX - lastPointerXRef.current;
+        lastPointerXRef.current = e.clientX;
+        const dragSensitivity = 0.65;
+        targetAngleRef.current += deltaX * dragSensitivity;
+        dragVelocityRef.current = deltaX * 0.4;
+      }
+    } else {
+      // Natural Hover Mode: As cursor moves across the avatar, it rotates smoothly!
+      const rect = containerRef.current.getBoundingClientRect();
+      const relativeX = (e.clientX - rect.left) / rect.width; // 0.0 to 1.0
+
+      // Map 0 -> -180 deg, 0.5 -> 0 deg (center/front), 1.0 -> +180 deg
+      // Smooth continuous full 360 rotation mapped across the avatar width
+      const targetDeg = (relativeX - 0.5) * 360;
+      targetAngleRef.current = targetDeg;
+    }
   };
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDraggingRef.current || lastPointerXRef.current === null) return;
-    const deltaX = e.clientX - lastPointerXRef.current;
+  const handlePointerEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handlePointerLeave = () => {
+    setIsHovered(false);
+    isPointerDownRef.current = false;
+    lastPointerXRef.current = null;
+    dragVelocityRef.current = 0;
+
+    // Smoothly spring back to front (0°) on mouse leave
+    targetAngleRef.current = 0;
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isPointerDownRef.current = true;
     lastPointerXRef.current = e.clientX;
-
-    const sensitivity = 0.55;
-    const deltaAngle = deltaX * sensitivity;
-
-    angleRef.current += deltaAngle;
-    velocityRef.current = deltaAngle * 0.35; // Preserve momentum
-
-    renderCurrentFrame();
-    setCurrentAngle(Math.round(((angleRef.current % 360) + 360) % 360));
+    dragVelocityRef.current = 0;
+    try {
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {
+      // Ignored
+    }
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
-    setIsDragging(false);
-    isDraggingRef.current = false;
+    isPointerDownRef.current = false;
     lastPointerXRef.current = null;
     try {
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
@@ -195,122 +213,65 @@ export function Turntable360() {
     }
   };
 
-  const stepRotation = (direction: 1 | -1) => {
-    angleRef.current += direction * DEGREES_PER_FRAME;
-    velocityRef.current = 0;
-    renderCurrentFrame();
-    setCurrentAngle(Math.round(((angleRef.current % 360) + 360) % 360));
-  };
-
-  const resetToFront = () => {
-    angleRef.current = 0;
-    velocityRef.current = 0;
-    renderCurrentFrame();
-    setCurrentAngle(0);
-  };
-
   return (
-    <div className="relative w-full flex flex-col items-center select-none">
-      {/* ── Cinematic Studio Spotlight Aura behind the person ── */}
+    <div className="relative w-full flex items-center justify-center select-none">
+      {/* ── Intense, Cinematic Spotlight Glow behind the Avatar ── */}
       <div
         className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
         aria-hidden="true"
       >
+        {/* Core Vibrant Amber/Orange Backlight */}
         <div
-          className="w-[120%] h-[110%] rounded-full opacity-60 filter blur-[70px]"
+          className={`w-[360px] sm:w-[480px] h-[360px] sm:h-[480px] rounded-full filter blur-[75px] transition-all duration-700 ${
+            isHovered ? 'opacity-85 scale-110' : 'opacity-65 scale-100'
+          }`}
           style={{
             background:
-              'radial-gradient(circle at 50% 45%, rgba(249, 115, 22, 0.22) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 75%)',
+              'radial-gradient(circle, rgba(249, 115, 22, 0.5) 0%, rgba(255, 92, 40, 0.3) 35%, rgba(99, 102, 241, 0.25) 60%, transparent 75%)',
+          }}
+        />
+
+        {/* Ambient Halo Spread */}
+        <div
+          className="absolute w-[520px] sm:w-[680px] h-[520px] sm:h-[680px] rounded-full filter blur-[110px] opacity-40 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(circle, rgba(249, 115, 22, 0.3) 0%, rgba(99, 102, 241, 0.2) 45%, transparent 75%)',
           }}
         />
       </div>
 
-      {/* ── Floating Orientation Telemetry Tag ── */}
-      <div className="absolute top-2 right-4 sm:right-6 z-20 flex items-center gap-2 font-mono text-xs text-accent bg-[#0d0f18]/80 backdrop-blur-md border border-white/[0.1] px-3 py-1 rounded-full shadow-lg">
-        <Compass size={13} className="shrink-0" />
-        <span>{getOrientationLabel(currentAngle)}</span>
-      </div>
-
-      {/* ── The Immense Standing Portrait Stage (No Boxes, No Bezels) ── */}
+      {/* ── Pure, Borderless Standing Avatar Stage (Hover to Rotate) ── */}
       <div
         ref={containerRef}
-        onPointerDown={handlePointerDown}
+        onPointerEnter={handlePointerEnter}
         onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        className={`relative z-10 w-full h-[68vh] min-h-[500px] max-h-[760px] flex items-end justify-center touch-none cursor-grab active:cursor-grabbing ${
-          isDragging ? 'cursor-grabbing' : 'cursor-grab'
-        }`}
+        onPointerCancel={handlePointerLeave}
+        className="relative z-10 w-full h-[72vh] min-h-[520px] max-h-[800px] flex items-end justify-center cursor-ew-resize transition-transform duration-300"
         style={{
-          // Gracefully dissolve bottom of the suit into the background
-          maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+          // Smooth vertical fade at the bottom into the dark canvas
+          maskImage: 'linear-gradient(to bottom, black 82%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 82%, transparent 100%)',
         }}
-        aria-label="Interactive 360° Portrait of Shivaji Rathod. Drag horizontally to rotate."
-        role="region"
+        aria-label="Interactive 360° Portrait of Shivaji Rathod. Hover cursor horizontally to rotate."
+        role="img"
       >
         {/* Loading Spinner */}
         {!isLoaded && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
             <div className="w-9 h-9 rounded-full border-2 border-accent border-t-transparent animate-spin" />
-            <span className="font-mono text-xs text-fg-muted tracking-wider">
-              LOADING 360° PORTRAIT...
-            </span>
           </div>
         )}
 
-        {/* Clean, Full-Resolution Canvas */}
+        {/* Crystal-Clear Canvas with Grounding Drop Shadow */}
         <canvas
           ref={canvasRef}
-          className="w-full h-full object-contain pointer-events-none drop-shadow-[0_25px_35px_rgba(0,0,0,0.7)]"
+          className="w-full h-full object-contain pointer-events-none filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.8)]"
         />
       </div>
-
-      {/* ── Sleek Floating Interactive Control Capsule (Minimal Pill) ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        className="relative z-20 -mt-6 sm:-mt-8 flex items-center gap-2 bg-[#0c0e18]/85 backdrop-blur-xl border border-white/[0.12] rounded-full px-3.5 py-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
-      >
-        {/* Step Left */}
-        <button
-          type="button"
-          onClick={() => stepRotation(-1)}
-          aria-label="Rotate left"
-          className="p-1.5 rounded-full text-fg-muted hover:text-white hover:bg-white/[0.08] active:scale-95 transition-all"
-        >
-          <ChevronLeft size={16} />
-        </button>
-
-        {/* Status / Drag Hint */}
-        <span className="font-mono text-xs font-semibold text-fg tracking-wider uppercase px-2">
-          ← DRAG TO ROTATE 360° →
-        </span>
-
-        {/* Reset to Front (if turned) */}
-        {currentAngle !== 0 && (
-          <button
-            type="button"
-            onClick={resetToFront}
-            aria-label="Reset orientation"
-            className="flex items-center gap-1 font-mono text-[11px] text-accent hover:text-white bg-accent/10 hover:bg-accent/20 px-2 py-0.5 rounded-full transition-all"
-          >
-            <RotateCcw size={11} />
-            <span>Reset</span>
-          </button>
-        )}
-
-        {/* Step Right */}
-        <button
-          type="button"
-          onClick={() => stepRotation(1)}
-          aria-label="Rotate right"
-          className="p-1.5 rounded-full text-fg-muted hover:text-white hover:bg-white/[0.08] active:scale-95 transition-all"
-        >
-          <ChevronRight size={16} />
-        </button>
-      </motion.div>
     </div>
   );
 }
