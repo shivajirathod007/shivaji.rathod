@@ -1,0 +1,164 @@
+#!/usr/bin/env node
+/**
+ * optimize-frames.mjs
+ * Converts 14 source PNG turntable frames to optimized WebP files.
+ * Run: npm run photos (from project root)
+ * Source: public/photos/ (within portfolio/)
+ * Output: public/turntable/ + lib/turntable-manifest.generated.ts
+ */
+
+import { createHash } from 'crypto';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import sharp from 'sharp';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = join(__dirname, '..');
+// Source photos are inside public/photos/ within portfolio/
+const PHOTOS_ROOT = join(PROJECT_ROOT, 'public', 'photos');
+const OUTPUT_DIR = join(PROJECT_ROOT, 'public', 'turntable');
+const MANIFEST_PATH = join(PROJECT_ROOT, 'lib', 'turntable-manifest.generated.ts');
+
+// Frame playback order — must match turntable-config.ts FRAME_SOURCES
+const FRAME_SOURCES = [
+  'PHOTO-1-FRONT.png',
+  'PHOTO-2.png',
+  'PHOTO-3.png',
+  'PHOTO-4.png',
+  'PHOTO-5.png',
+  'PHOTO-6.png',
+  'PHOTO-7.png',
+  'PHOTO-8-BACK.png',
+  'MIRROR-PHOTO-7.png',
+  'MIRROR-PHOTO-6.png',
+  'MIRROR-PHOTO-5.png',
+  'MIRROR-PHOTO-4.png',
+  'MIRROR-PHOTO-3.png',
+  'MIRROR-PHOTO-2.png',
+];
+
+const DESKTOP_WIDTH = 900;
+const DESKTOP_HEIGHT = 1200;
+const MOBILE_WIDTH = 450;
+const MOBILE_HEIGHT = 600;
+const WEBP_QUALITY = 82;
+const PLACEHOLDER_WIDTH = 24;
+
+function contentHash(buffer) {
+  return createHash('sha256').update(buffer).digest('hex').slice(0, 8);
+}
+
+async function main() {
+  // Ensure output directory exists
+  mkdirSync(OUTPUT_DIR, { recursive: true });
+
+  // Check source directory
+  if (!existsSync(PHOTOS_ROOT)) {
+    console.error(`ERROR: Source directory not found: ${PHOTOS_ROOT}`);
+    process.exit(1);
+  }
+
+  console.log(`Source: ${PHOTOS_ROOT}`);
+  console.log(`Output: ${OUTPUT_DIR}`);
+  console.log(`Processing ${FRAME_SOURCES.length} frames...\n`);
+
+  const frameEntries = [];
+  let totalDesktopBytes = 0;
+  let placeholderB64 = '';
+
+  // Collect all source buffers first to compute TURNTABLE_VERSION
+  const sourceBuffers = FRAME_SOURCES.map((name) => {
+    const srcPath = join(PHOTOS_ROOT, name);
+    if (!existsSync(srcPath)) {
+      console.error(`ERROR: Source file not found: ${srcPath}`);
+      process.exit(1);
+    }
+    return readFileSync(srcPath);
+  });
+
+  // TURNTABLE_VERSION = hash of all source file hashes combined
+  const versionHash = createHash('sha256');
+  sourceBuffers.forEach((buf) => versionHash.update(buf));
+  const TURNTABLE_VERSION = 'v' + versionHash.digest('hex').slice(0, 8);
+  console.log(`TURNTABLE_VERSION: ${TURNTABLE_VERSION}\n`);
+
+  for (let i = 0; i < FRAME_SOURCES.length; i++) {
+    const name = FRAME_SOURCES[i];
+    const srcBuffer = sourceBuffers[i];
+    const paddedIndex = String(i).padStart(2, '0');
+
+    // Desktop version (900x1200)
+    const desktopBuffer = await sharp(srcBuffer)
+      .resize(DESKTOP_WIDTH, DESKTOP_HEIGHT, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .webp({ quality: WEBP_QUALITY, lossless: false })
+      .toBuffer();
+
+    const desktopHash = contentHash(desktopBuffer);
+    const desktopFilename = `frame-${paddedIndex}.${desktopHash}.webp`;
+    writeFileSync(join(OUTPUT_DIR, desktopFilename), desktopBuffer);
+    totalDesktopBytes += desktopBuffer.length;
+
+    // Mobile version (450x600)
+    const mobileBuffer = await sharp(srcBuffer)
+      .resize(MOBILE_WIDTH, MOBILE_HEIGHT, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .webp({ quality: WEBP_QUALITY, lossless: false })
+      .toBuffer();
+
+    const mobileHash = contentHash(mobileBuffer);
+    const mobileFilename = `frame-${paddedIndex}-sm.${mobileHash}.webp`;
+    writeFileSync(join(OUTPUT_DIR, mobileFilename), mobileBuffer);
+
+    frameEntries.push({
+      desktop: `/turntable/${desktopFilename}`,
+      mobile: `/turntable/${mobileFilename}`,
+    });
+
+    // Blurred placeholder from first (front) frame
+    if (i === 0) {
+      const placeholderBuffer = await sharp(srcBuffer)
+        .resize(PLACEHOLDER_WIDTH, null, { fit: 'contain' })
+        .blur(3)
+        .webp({ quality: 60 })
+        .toBuffer();
+      placeholderB64 = `data:image/webp;base64,${placeholderBuffer.toString('base64')}`;
+    }
+
+    const desktopKB = (desktopBuffer.length / 1024).toFixed(1);
+    console.log(`[${paddedIndex}] ${name.padEnd(25)} desktop: ${desktopKB} KB  → ${desktopFilename}`);
+  }
+
+  // Size check
+  const totalMB = (totalDesktopBytes / 1024 / 1024).toFixed(2);
+  console.log(`\nTotal desktop frames: ${totalMB} MB`);
+  if (totalDesktopBytes > 2 * 1024 * 1024) {
+    console.warn(`WARNING: Total desktop frame size ${totalMB} MB exceeds 2 MB target. Consider reducing quality.`);
+  } else {
+    console.log('✓ Under 2 MB budget');
+  }
+
+  // Write manifest
+  const manifestContent = `// AUTO-GENERATED by scripts/optimize-frames.mjs — DO NOT EDIT MANUALLY
+// Run: npm run photos to regenerate
+
+export const TURNTABLE_VERSION = '${TURNTABLE_VERSION}';
+
+export interface TurntableFrame {
+  desktop: string;
+  mobile: string;
+}
+
+export const FRAMES: TurntableFrame[] = ${JSON.stringify(frameEntries, null, 2)};
+
+export const PLACEHOLDER_B64 = '${placeholderB64}';
+`;
+
+  writeFileSync(MANIFEST_PATH, manifestContent, 'utf8');
+  console.log(`\n✓ Manifest written to lib/turntable-manifest.generated.ts`);
+  console.log(`✓ Done — ${FRAME_SOURCES.length} frames processed`);
+}
+
+main().catch((err) => {
+  console.error('optimize-frames failed:', err);
+  process.exit(1);
+});

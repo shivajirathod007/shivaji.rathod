@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shivaji Rathod — Portfolio
+
+Personal portfolio and security blog for Shivaji Rathod (handle: Shivazzz), a cybersecurity researcher based in Pune, India.
+
+**Live site:** https://shivajirathod.dev
+
+## Tech Stack
+
+- Next.js 16 (App Router, TypeScript strict mode)
+- Tailwind CSS v4 with custom design tokens
+- Framer Motion for UI animation
+- HTML Canvas 2D — 360° turntable avatar
+- MDX blog (`content/posts/*.mdx`) — no database
+- Web3Forms + Cloudflare Turnstile — contact form
+- Upstash Redis — serverless rate limiting
+- Vercel free tier — hosting
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone and install
+
+```bash
+git clone https://github.com/shivajirathod007/shivajirathod-portfolio.git
+cd shivajirathod-portfolio
+npm install
+```
+
+### 2. Configure environment variables
+
+```bash
+cp .env.example .env.local
+```
+
+Fill in `.env.local`:
+
+| Variable | Source |
+|---|---|
+| `WEB3FORMS_ACCESS_KEY` | [web3forms.com](https://web3forms.com) |
+| `TURNSTILE_SECRET_KEY` | Cloudflare Dashboard → Turnstile |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Same Turnstile widget |
+| `UPSTASH_REDIS_REST_URL` | [console.upstash.com](https://console.upstash.com) |
+| `UPSTASH_REDIS_REST_TOKEN` | Same Upstash database |
+
+### 3. Run dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Turntable Avatar
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The 360° avatar frames are **pre-committed** to `public/turntable/` and `lib/turntable-manifest.generated.ts`. Vercel does not run the photo pipeline.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Replacing photos (local only)
 
-## Learn More
+1. Put updated PNG files in `PHOTOS-BG/` at the workspace root (parent of `portfolio/`)
+2. `npm run photos`
+3. Commit the generated files in `public/turntable/` and `lib/turntable-manifest.generated.ts`
 
-To learn more about Next.js, take a look at the following resources:
+## Adding a Blog Post
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create `content/posts/your-slug.mdx`
+2. Add frontmatter:
+   ```yaml
+   ---
+   title: "Post Title"
+   date: "2026-01-15"
+   summary: "One sentence description."
+   tags: ["CVE", "Web Security"]
+   draft: false
+   ---
+   ```
+3. Write MDX content below
+4. `git push` — Vercel deploys automatically
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Posts with `draft: true` are hidden in production.
 
-## Deploy on Vercel
+## Deploying to Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push repository to GitHub
+2. Import at [vercel.com/new](https://vercel.com/new)
+3. Set Root Directory to the repo root (or `portfolio/` if nested)
+4. Add all env vars from `.env.example` under Settings → Environment Variables
+5. Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+No build-time photo processing is needed — frames are pre-committed.
+
+## Running Tests
+
+```bash
+npm test          # run all tests once
+npm run test:watch  # watch mode
+```
+
+## Security
+
+See [SECURITY.md](./SECURITY.md) for the vulnerability disclosure policy.
+
+# shivaji.rathod

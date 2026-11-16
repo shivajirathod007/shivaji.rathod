@@ -1,0 +1,80 @@
+---
+title: "Building a Privacy-Preserving LLM Proxy with Local PII Detection"
+date: "2026-03-10"
+summary: "How AI-RAKSHAK intercepts prompts, strips personally identifiable information using a custom NER model, and replaces it with deterministic placeholders before sending anything to external LLMs."
+tags: ["AI Security", "Web Security"]
+draft: false
+---
+
+## The Problem
+
+Every time a user types a message into a product powered by an external LLM, there is a risk they include something they should not: a name, an ID number, an internal project codename, or a medical condition. The external model processes it, it may appear in training data, and the user has no idea.
+
+The standard answer is "train users not to do that." That does not work at scale.
+
+## Architecture Overview
+
+AI-RAKSHAK sits between the user-facing application and the external LLM. Every prompt passes through a local pipeline before it leaves the network.
+
+```
+User Prompt → [Local NER Model] → [Placeholder Mapping] → [Sanitized Prompt] → External LLM
+                                         ↓
+                               [Reverse Mapping Cache]
+                                         ↓
+                              LLM Response → [Rehydration] → User
+```
+
+The key insight: use **deterministic placeholders**. `John Smith` always becomes `PERSON_A` for the duration of a session. This means the LLM response is coherent — it refers to `PERSON_A` — and we can substitute back before the user sees it.
+
+## The NER Model
+
+We trained a custom Named Entity Recognition model on a mix of:
+
+- Standard NER datasets (CoNLL-2003, OntoNotes)
+- Synthetic Indian personal data (names, Aadhaar patterns, phone number formats)
+- Domain-specific entities from the target use case
+
+```python
+class PIIDetector:
+    def __init__(self, model_path: str):
+        self.model = load_model(model_path)
+        self.session_map: dict[str, str] = {}
+        self.counter: dict[str, int] = defaultdict(int)
+
+    def sanitize(self, text: str) -> str:
+        entities = self.model.predict(text)
+        for entity in sorted(entities, key=lambda e: e.start, reverse=True):
+            placeholder = self._get_placeholder(entity)
+            text = text[:entity.start] + placeholder + text[entity.end:]
+        return text
+
+    def _get_placeholder(self, entity) -> str:
+        key = entity.text.lower().strip()
+        if key not in self.session_map:
+            self.counter[entity.label] += 1
+            label = f"{entity.label}_{chr(64 + self.counter[entity.label])}"
+            self.session_map[key] = label
+        return self.session_map[key]
+```
+
+## What Gets Detected
+
+| Category | Examples |
+|----------|----------|
+| Person names | Full names, first names in context |
+| Contact info | Email addresses, phone numbers |
+| ID numbers | Aadhaar, PAN, passport patterns |
+| Locations | Addresses, specific building names |
+| Organisation names | Company names, internal project names |
+
+## Lessons Learned
+
+**False positives are expensive.** An overly aggressive model that redacts common words breaks the semantic meaning of the prompt. Precision matters more than recall here — it is better to miss an occasional entity than to corrupt the prompt.
+
+**Rehydration is tricky with paraphrasing.** Some LLMs paraphrase the placeholder into natural language ("Person A said..."). The reverse mapping needs to handle these variants.
+
+**Local inference latency is acceptable.** The custom NER model adds about 40–80ms per prompt on commodity hardware. For most conversational use cases this is invisible.
+
+## Conclusion
+
+Intercepting prompts locally before they leave the user's network is the only way to give meaningful privacy guarantees when using external LLMs. AI-RAKSHAK is on GitHub if you want to explore the architecture further.

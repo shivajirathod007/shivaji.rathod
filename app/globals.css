@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS — Custom Properties
+   High-end Editorial Dark / Luxury Obsidian
+   ───────────────────────────────────────────── */
+
+/* Light theme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg:          #f8f9fa;
+  --bg-surface:  #ffffff;
+  --bg-elevated: #f1f3f5;
+  --fg:          #0f172a;
+  --fg-muted:    #475569;
+  --border:      #e2e8f0;
 }
 
+/* Dark theme (Default) */
+.dark {
+  --bg:          #08090e;
+  --bg-surface:  #0d0f17;
+  --bg-elevated: #141724;
+  --fg:          #f8fafc;
+  --fg-muted:    #94a3b8;
+  --border:      rgba(255, 255, 255, 0.08);
+}
+
+/* Curated Signal Colours */
+:root,
+.dark {
+  --orange: #f97316; /* Clean cyber amber / orange */
+  --volt:   #10b981; /* High-trust emerald */
+  --violet: #6366f1; /* Deep electric indigo */
+}
+
+/* Tag chip colours */
+:root,
+.dark {
+  --chip-cve:   var(--orange);
+  --chip-web:   var(--violet);
+  --chip-ai:    var(--volt);
+  --chip-cloud: #38bdf8;
+}
+
+/* ─────────────────────────────────────────────
+   TAILWIND v4 THEME EXTENSION
+   ───────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg:          var(--bg);
+  --color-bg-surface:  var(--bg-surface);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-fg:          var(--fg);
+  --color-fg-muted:    var(--fg-muted);
+  --color-border:      var(--border);
+  --color-accent:      var(--orange);
+  --color-orange:      var(--orange);
+  --color-volt:        var(--volt);
+  --color-violet:      var(--violet);
+  --color-chip-cve:    var(--chip-cve);
+  --color-chip-web:    var(--chip-web);
+  --color-chip-ai:     var(--chip-ai);
+  --color-chip-cloud:  var(--chip-cloud);
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif:   "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ─────────────────────────────────────────────
+   BASE STYLES
+   ───────────────────────────────────────────── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body, "Instrument Sans", sans-serif);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background-color: rgba(249, 115, 22, 0.3);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* Modern Dark Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Clean Editorial Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display, "Bricolage Grotesque", sans-serif);
+  letter-spacing: -0.02em;
 }
