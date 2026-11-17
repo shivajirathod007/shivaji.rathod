@@ -1,6 +1,6 @@
 import { SectionLabel } from '@/components/SectionLabel';
 import { ScrollReveal } from '@/components/ScrollReveal';
-import { MapPin, Mail, ExternalLink, ShieldCheck, Award } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 const PROFILE_LINKS = [
   { label: 'GitHub', href: 'https://github.com/shivajirathod007' },
@@ -13,7 +13,7 @@ export function AboutSection() {
     <section id="about" aria-labelledby="about-heading" className="section-space border-t border-border">
       <div className="section-container">
         <ScrollReveal className="section-intro">
-          <SectionLabel number="01" text="PROFILE &amp; BACKGROUND" />
+          <SectionLabel number="01" text="Profile &amp; Background" />
           <h2 id="about-heading" className="section-title font-display font-bold text-fg">
             Security research{' '}
             <span className="mt-1 block font-serif font-normal italic text-accent-ink">
@@ -40,33 +40,26 @@ export function AboutSection() {
             </ScrollReveal>
           </div>
 
-          <ScrollReveal delay={0.12} className="min-w-0 rounded-2xl border border-border bg-linear-to-br from-bg-surface to-bg-elevated p-4 sm:p-6">
-            <div className="flex items-start gap-3 border-b border-border pb-5">
-              <div className="grid size-10 shrink-0 place-items-center rounded-xl border border-accent/20 bg-accent/10 text-accent-ink">
-                <Award size={20} aria-hidden="true" />
-              </div>
-              <div>
-                <h3 className="font-mono text-xs font-semibold tracking-wider text-accent-ink uppercase">Key Distinction</h3>
-                <p className="mt-1 font-display text-xl leading-tight font-bold text-fg">NASA VDP Hall of Fame (P1 Recognition)</p>
-              </div>
+          <ScrollReveal delay={0.12} className="portfolio-card min-w-0 p-5 [--card-accent:var(--orange)] sm:p-7">
+            <div className="border-b border-border pb-4">
+              <p className="text-sm font-semibold text-accent-ink">P1 recognition</p>
+              <h3 className="mt-1 text-xl leading-tight font-bold text-fg sm:text-2xl">NASA VDP Hall of Fame</h3>
             </div>
 
-            <ul className="space-y-3 py-5 text-sm text-fg-muted">
-              <li className="flex items-center gap-3">
-                <MapPin size={16} className="shrink-0 text-accent-ink" aria-hidden="true" />
-                Pune, Maharashtra, India
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail size={16} className="shrink-0 text-accent-ink" aria-hidden="true" />
-                <a href="mailto:shivaji.rathod.in@gmail.com" className="font-mono text-xs transition-colors hover:text-fg">
-                  shivaji.rathod.in@gmail.com
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <ShieldCheck size={16} className="shrink-0 text-volt-ink" aria-hidden="true" />
-                PGP / Responsible Disclosure Verified
-              </li>
-            </ul>
+            <dl className="divide-y divide-border text-sm">
+              <div className="grid grid-cols-[5.25rem_minmax(0,1fr)] gap-2 py-3">
+                <dt className="font-medium text-fg-muted">Location</dt>
+                <dd>Pune, Maharashtra, India</dd>
+              </div>
+              <div className="grid grid-cols-[5.25rem_minmax(0,1fr)] gap-2 py-3">
+                <dt className="font-medium text-fg-muted">Email</dt>
+                <dd><a href="mailto:shivaji.rathod.in@gmail.com" className="transition-colors hover:text-accent-ink hover:underline">shivaji.rathod.in@gmail.com</a></dd>
+              </div>
+              <div className="grid grid-cols-[5.25rem_minmax(0,1fr)] gap-2 py-3">
+                <dt className="font-medium text-fg-muted">Disclosure</dt>
+                <dd>PGP / Responsible Disclosure Verified</dd>
+              </div>
+            </dl>
 
             <ul className="grid grid-cols-3 gap-2 border-t border-border pt-4">
               {PROFILE_LINKS.map(({ label, href }) => (
@@ -75,7 +68,7 @@ export function AboutSection() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex min-h-11 flex-wrap items-center justify-center gap-x-1.5 gap-y-1 rounded-lg py-2 text-center font-mono text-xs text-fg-muted transition-colors hover:bg-accent/10 hover:text-accent-ink"
+                    className="flex min-h-11 flex-wrap items-center justify-center gap-x-1.5 gap-y-1 rounded-lg py-2 text-center text-sm font-medium text-fg-muted transition-colors hover:bg-accent/10 hover:text-accent-ink"
                   >
                     {label}
                     <ExternalLink size={12} className="shrink-0 text-accent-ink" aria-hidden="true" />

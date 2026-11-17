@@ -44,13 +44,9 @@ export function HeroSection() {
             initial="hidden"
             animate="show"
           >
-            {/* Eyebrow Accent Line */}
-            <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6">
-              <span className="h-[2px] w-8 shrink-0 bg-accent rounded-full" aria-hidden="true" />
-              <p className="font-mono text-xs font-semibold text-accent-ink tracking-widest uppercase">
-                Cybersecurity Researcher · Cloud Security
-              </p>
-            </motion.div>
+            <motion.p variants={fadeUp} className="mb-4 max-w-[32ch] text-base leading-snug font-medium text-fg-muted sm:text-lg">
+              Cybersecurity researcher focused on <span className="text-accent-ink">cloud security.</span>
+            </motion.p>
 
             {/* Huge Interactive Name with Character Hover Pop */}
             <motion.div variants={fadeUp}>
@@ -73,7 +69,7 @@ export function HeroSection() {
               {/* Primary Orange Button */}
               <Link
                 href="/#projects"
-                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-accent text-on-accent font-semibold text-sm hover:brightness-110 shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-accent text-on-accent font-semibold text-sm hover:brightness-110 transition-colors"
               >
                 <span>Explore my work</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

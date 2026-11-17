@@ -82,18 +82,11 @@ export function Navbar() {
             }`}
           aria-label="Main navigation"
         >
-          {/* Brand Wordmark */}
           <Link
             href="/"
-            className="flex min-w-0 items-center gap-2 sm:gap-3 group rounded-md"
-            aria-label="Shivaji Rathod — home"
+            className="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-semibold text-fg transition-colors hover:text-accent-ink"
           >
-            <div className="size-9 shrink-0 rounded-xl bg-accent/15 border border-accent/35 flex items-center justify-center text-accent-ink group-hover:scale-105 transition-transform">
-              <span className="font-mono text-xs font-bold tracking-wider">SR</span>
-            </div>
-            <span className="font-display font-bold text-sm sm:text-lg tracking-tight text-fg group-hover:text-accent-ink transition-colors">
-              Shivaji Rathod
-            </span>
+            Home
           </Link>
 
           {/* Desktop Nav Links (Max 7 items) */}
@@ -130,7 +123,7 @@ export function Navbar() {
             <a
               href="/Shivaji_Rathod_CV.pdf"
               download="Shivaji_Rathod_CV.pdf"
-              className="hidden sm:inline-flex items-center gap-2 h-9 px-3 xl:px-5 whitespace-nowrap rounded-full text-xs sm:text-sm font-semibold bg-accent text-on-accent hover:brightness-110 shadow-[0_0_20px_rgba(249,115,22,0.4)] transition-all"
+              className="hidden sm:inline-flex items-center gap-2 h-9 px-3 xl:px-5 whitespace-nowrap rounded-full text-xs sm:text-sm font-semibold bg-accent text-on-accent hover:brightness-110 transition-colors"
             >
               <Download size={14} />
               <span>Download CV</span>
@@ -167,7 +160,7 @@ export function Navbar() {
         <div className="flex min-h-full flex-col justify-between gap-6 p-5 sm:p-7">
           <div>
             <div className="mb-4 flex items-center justify-between gap-3 border-b border-border pb-4">
-              <span className="font-display text-lg font-bold">Shivaji Rathod</span>
+              <span className="font-display text-lg font-bold">Navigation</span>
               <button
                 type="button"
                 autoFocus

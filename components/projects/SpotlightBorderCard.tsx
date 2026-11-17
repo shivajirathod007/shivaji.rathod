@@ -1,7 +1,5 @@
-'use client';
-import { useRef } from 'react';
+import type { CSSProperties } from 'react';
 import { ExternalLink, Lock } from 'lucide-react';
-import { PrivateBadge } from './PrivateBadge';
 
 export interface SpotlightBorderCardProps {
   title: string;
@@ -26,36 +24,12 @@ export function SpotlightBorderCard({
   accentColor,
   className = '',
 }: SpotlightBorderCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    cardRef.current.style.setProperty('--x', `${e.clientX - rect.left}px`);
-    cardRef.current.style.setProperty('--y', `${e.clientY - rect.top}px`);
-  };
-
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      className={`group relative rounded-2xl border border-border bg-bg-surface p-4 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-border-strong hover:shadow-2xl hover:shadow-panel-shadow overflow-hidden flex flex-col justify-between ${className}`}
+    <article
+      className={`portfolio-card flex h-full flex-col justify-between p-5 transition-colors hover:border-border-strong sm:p-7 ${className}`}
+      style={{ '--card-accent': accentColor } as CSSProperties}
     >
-      {/* Top accent accent glow bar */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 opacity-60 group-hover:opacity-100"
-        style={{ background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)` }}
-      />
-
-      {/* Mouse spotlight */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: `radial-gradient(400px circle at var(--x, 0px) var(--y, 0px), ${accentColor}12, transparent 70%)`,
-        }}
-      />
-
-      <div className="relative z-10">
+      <div>
         <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 mb-3">
           <div>
             {subtitle && (
@@ -63,7 +37,7 @@ export function SpotlightBorderCard({
                 {subtitle}
               </p>
             )}
-            <h3 className="font-display font-bold text-2xl text-fg tracking-tight group-hover:text-accent-ink transition-colors">
+            <h3 className="font-display font-bold text-2xl text-fg tracking-tight">
               {title}
             </h3>
           </div>
@@ -80,7 +54,6 @@ export function SpotlightBorderCard({
                 rel="noopener noreferrer"
                 aria-label={`View ${title} on GitHub`}
                 className="p-2 rounded-lg text-fg-muted hover:text-fg hover:bg-fg/[0.06] transition-colors"
-                onClick={(e) => e.stopPropagation()}
               >
                 <ExternalLink size={16} />
               </a>
@@ -93,16 +66,16 @@ export function SpotlightBorderCard({
         <p className="mb-5 max-w-prose text-sm leading-relaxed text-fg-muted">{description}</p>
       </div>
 
-      <div className="relative z-10 pt-4 border-t border-border flex flex-wrap gap-2">
+      <div className="pt-4 border-t border-border flex flex-wrap gap-2">
         {tech.map((t) => (
           <span
             key={t}
-            className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-fg/[0.04] border border-border text-fg-muted group-hover:border-border-strong transition-colors"
+            className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-fg/[0.04] border border-border text-fg-muted"
           >
             {t}
           </span>
         ))}
       </div>
-    </div>
+    </article>
   );
 }

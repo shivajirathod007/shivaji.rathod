@@ -7,7 +7,7 @@ export function SkillsSection() {
     <section id="skills" className="section-space border-t border-border relative">
       <div className="section-container">
         <ScrollReveal className="mb-8">
-          <SectionLabel number="02" text="TECHNICAL STACK" />
+          <SectionLabel number="02" text="Technical Stack" />
           <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Security &amp; Engineering Matrix
           </h2>

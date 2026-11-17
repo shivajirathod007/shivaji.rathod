@@ -7,8 +7,7 @@ const TIMELINE_DATA: TimelineEntry[] = [
     title: 'Security Engineering Intern (AI Security)',
     org: 'Accion Labs',
     location: 'Pune, India',
-    period: '2025 – Present',
-    type: 'work',
+    period: '2026 – Present',
     bullets: [
       'Audit production AI for prompt injection and other vulnerabilities.',
       'Support cloud red-team exercises and help automate CI/CD security checks.',
@@ -18,8 +17,7 @@ const TIMELINE_DATA: TimelineEntry[] = [
     title: 'Cybersecurity Co-Head',
     org: 'Google Developer Groups on Campus (GDGOC)',
     location: 'VIT Pune',
-    period: '2024 – Present',
-    type: 'leadership',
+    period: '2026 – Present',
     bullets: [
       'Lead security workshops and organize boot camps that have reached 400+ students.',
     ],
@@ -28,8 +26,7 @@ const TIMELINE_DATA: TimelineEntry[] = [
     title: 'Independent Security Researcher',
     org: 'NASA Vulnerability Disclosure Program (VDP)',
     location: 'Remote',
-    period: '2024 – 2025',
-    type: 'work',
+    period: '2026 – Present',
     meta: 'HALL OF FAME (P1)',
     bullets: [
       'Disclosed a critical (P1) authentication bypass and received a letter from NASA Security Operations.',
@@ -39,8 +36,7 @@ const TIMELINE_DATA: TimelineEntry[] = [
     title: 'B.Tech in Computer Engineering',
     org: 'Vishwakarma Institute of Technology (VIT Pune)',
     location: 'Pune, India',
-    period: '2024 – 2028',
-    type: 'education',
+    period: '2026 – 2028',
     bullets: [
       'Focus on network security, cryptography, distributed systems, and cloud architecture.',
     ],
@@ -52,7 +48,7 @@ export function ExperienceSection() {
     <section id="experience" className="section-space border-t border-border relative">
       <div className="section-container">
         <ScrollReveal className="section-intro">
-          <SectionLabel number="03" text="EXPERIENCE &amp; EDUCATION" />
+          <SectionLabel number="03" text="Experience &amp; Education" />
           <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Work &amp; Academic Journey
           </h2>

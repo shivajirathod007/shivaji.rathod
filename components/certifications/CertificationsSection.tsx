@@ -40,7 +40,7 @@ export function CertificationsSection() {
     <section id="certifications" className="section-space border-t border-border relative">
       <div className="section-container">
         <ScrollReveal className="section-intro">
-          <SectionLabel number="06" text="CREDENTIALS &amp; AUDITS" />
+          <SectionLabel number="06" text="Credentials &amp; Audits" />
           <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Certifications &amp; Training
           </h2>
@@ -63,7 +63,7 @@ export function CertificationsSection() {
                   href={cert.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-bg-surface p-4 sm:p-5 hover:border-emerald-500/40 hover:bg-emerald-500/[0.02] transition-all min-h-[56px]"
+                  className="group flex items-center justify-between gap-4 portfolio-card p-4 sm:p-5 hover:border-emerald-500/40 hover:bg-emerald-500/[0.02] transition-all min-h-[56px]"
                 >
                   <div>
                     <h4 className="text-base font-semibold text-fg group-hover:text-volt-ink transition-colors">
@@ -93,7 +93,7 @@ export function CertificationsSection() {
               {IN_PROGRESS.map((cert) => (
                 <div
                   key={cert.name}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-border border-dashed bg-fg/[0.01] p-4 sm:p-5"
+                  className="flex items-center justify-between gap-4 portfolio-card border-dashed p-4 sm:p-5"
                 >
                   <div>
                     <h4 className="text-base font-medium text-fg-muted">{cert.name}</h4>

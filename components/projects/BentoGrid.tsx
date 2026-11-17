@@ -1,5 +1,4 @@
-'use client';
-
+import { ScrollReveal } from '@/components/ScrollReveal';
 import { SpotlightBorderCard } from './SpotlightBorderCard';
 
 const PROJECTS = [
@@ -52,9 +51,10 @@ const PROJECTS = [
 export function BentoGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
-      {PROJECTS.map((project) => (
-        <div
+      {PROJECTS.map((project, index) => (
+        <ScrollReveal
           key={project.id}
+          delay={index * 0.05}
           className={project.span === 2 ? 'md:col-span-2' : 'md:col-span-1'}
         >
           <SpotlightBorderCard
@@ -67,7 +67,7 @@ export function BentoGrid() {
             isPrivate={project.isPrivate}
             accentColor={project.accentColor}
           />
-        </div>
+        </ScrollReveal>
       ))}
     </div>
   );

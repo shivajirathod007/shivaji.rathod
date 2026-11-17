@@ -7,7 +7,7 @@ export function ProjectsSection() {
     <section id="projects" className="section-space border-t border-border relative">
       <div className="section-container">
         <ScrollReveal className="section-intro">
-          <SectionLabel number="04" text="FEATURED WORK" />
+          <SectionLabel number="04" text="Featured Work" />
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="font-display section-title font-bold text-fg tracking-tight">

@@ -82,18 +82,18 @@ export function ContactForm() {
   };
 
   const inputClass =
-    'w-full rounded-md border border-border bg-bg-elevated px-4 py-3 text-base sm:text-sm text-fg placeholder-fg-muted transition-colors focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange';
-  const labelClass = 'block font-mono text-xs font-medium uppercase tracking-wider text-fg-muted mb-2';
+    'w-full rounded-xl border border-border bg-bg-elevated/70 px-4 py-3 text-base text-fg placeholder-fg-muted transition-colors focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange';
+  const labelClass = 'mb-2 block text-sm font-semibold text-fg';
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-5">
+    <form ref={formRef} onSubmit={handleSubmit} noValidate className="@container space-y-5">
       {/* Honeypot — hidden from humans, visible to bots */}
       <div className="hidden" aria-hidden="true">
         <label htmlFor="hp-field">Leave this empty</label>
         <input id="hp-field" name="_honeypot" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+      <div className="grid gap-4 @md:grid-cols-2">
         <div>
           <label htmlFor="contact-name" className={labelClass}>Name</label>
           <input
@@ -143,7 +143,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 font-medium text-on-accent transition-all hover:bg-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange disabled:opacity-60 disabled:cursor-not-allowed min-h-[44px]"
+        className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-accent px-6 py-3 font-semibold text-on-accent transition-colors hover:bg-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === 'loading' ? (
           <span className="animate-spin h-4 w-4 rounded-full border-2 border-current border-t-transparent" />

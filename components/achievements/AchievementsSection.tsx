@@ -1,6 +1,6 @@
 import { SectionLabel } from '@/components/SectionLabel';
 import { ScrollReveal } from '@/components/ScrollReveal';
-import { Shield, Users, Trophy, Star, Award, CheckCircle } from 'lucide-react';
+import { Shield, Users, Trophy, Star } from 'lucide-react';
 
 const ACHIEVEMENTS = [
   {
@@ -73,7 +73,7 @@ export function AchievementsSection() {
     <section id="achievements" className="section-space border-t border-border relative">
       <div className="section-container">
         <ScrollReveal className="section-intro">
-          <SectionLabel number="05" text="RECOGNITION &amp; IMPACT" />
+          <SectionLabel number="05" text="Recognition &amp; Impact" />
           <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Honors &amp; Accomplishments
           </h2>
@@ -85,38 +85,38 @@ export function AchievementsSection() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {ACHIEVEMENTS.map((item, i) => (
             <ScrollReveal key={item.title} delay={i * 0.05}>
-              <div className="group rounded-2xl border border-border bg-bg-surface p-4 sm:p-6 h-full flex flex-col justify-between hover:border-border-strong transition-all hover:shadow-xl hover:shadow-panel-shadow">
+              <article className="portfolio-card h-full p-5 transition-colors hover:border-border-strong sm:p-6">
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-4">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center border"
+                      className="flex size-10 shrink-0 items-center justify-center rounded-full border"
                       style={{
                         backgroundColor: `${item.accent}12`,
                         borderColor: `${item.accent}30`,
                         color: item.accent,
                       }}
                     >
-                      <item.icon size={20} />
+                      <item.icon size={18} aria-hidden="true" />
                     </div>
 
                     {item.badge && (
-                      <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full font-medium bg-emerald-500/10 text-volt-ink border border-emerald-500/20">
+                      <span className="rounded-full border border-border bg-bg-elevated/70 px-2.5 py-1 text-xs font-medium text-fg-muted">
                         {item.badge}
                       </span>
                     )}
                   </div>
 
-                  <p className="font-mono text-[11px] font-semibold text-fg-muted uppercase tracking-wider mb-1.5">
+                  <p className="mb-1.5 text-xs font-semibold text-accent-ink">
                     {item.category}
                   </p>
-                  <h3 className="font-display font-bold text-fg text-lg mb-2.5 leading-snug group-hover:text-accent-ink transition-colors">
+                  <h3 className="mb-2 text-lg leading-snug font-bold text-fg sm:text-xl">
                     {item.title}
                   </h3>
                   <p className="text-sm text-fg-muted leading-relaxed">
                     {item.description}
                   </p>
                 </div>
-              </div>
+              </article>
             </ScrollReveal>
           ))}
         </div>

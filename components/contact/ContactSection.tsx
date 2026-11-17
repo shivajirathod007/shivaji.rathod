@@ -7,10 +7,10 @@ export function ContactSection() {
   return (
     <section id="contact" className="section-space border-t border-border">
       <div className="section-container">
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div className="grid items-start gap-8 md:grid-cols-[minmax(0,4fr)_minmax(0,5fr)] lg:gap-14">
           {/* Left: copy */}
           <ScrollReveal>
-            <SectionLabel number="08" text="CONTACT" />
+            <SectionLabel number="08" text="Contact" />
             <h2 className="font-display section-title font-bold text-fg mb-4">
               Let&apos;s work together
             </h2>
@@ -18,7 +18,7 @@ export function ContactSection() {
               Open to security engineering roles, research collaborations, and responsible disclosure.
             </p>
 
-            <div className="space-y-3">
+            <div className="max-w-sm divide-y divide-border border-y border-border">
               {[
                 { icon: Mail, label: 'shivaji.rathod.in@gmail.com', href: 'mailto:shivaji.rathod.in@gmail.com' },
                 { icon: GitBranch, label: 'GitHub', href: 'https://github.com/shivajirathod007' },
@@ -30,7 +30,7 @@ export function ContactSection() {
                   href={item.href}
                   target={item.href.startsWith('http') ? '_blank' : undefined}
                   rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="flex items-center gap-3 text-sm text-fg-muted hover:text-fg transition-colors min-h-[44px]"
+                  className="flex min-h-12 items-center gap-3 py-2 text-sm font-medium text-fg transition-colors hover:text-accent-ink"
                 >
                   <item.icon size={15} className="text-accent-ink shrink-0" />
                   {item.label}
@@ -40,7 +40,7 @@ export function ContactSection() {
           </ScrollReveal>
 
           {/* Right: form */}
-          <ScrollReveal delay={0.15}>
+          <ScrollReveal delay={0.1} className="portfolio-card min-w-0 p-4 [--card-accent:var(--orange)] sm:p-6 lg:p-8">
             <ContactForm />
           </ScrollReveal>
         </div>

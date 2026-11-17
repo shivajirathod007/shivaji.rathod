@@ -24,7 +24,7 @@ export function LatestWriteupsStrip({ posts }: LatestWriteupsStripProps) {
       <div className="section-container">
         <ScrollReveal className="section-intro flex items-end justify-between gap-4">
           <div>
-            <SectionLabel number="07" text="WRITEUPS" />
+            <SectionLabel number="07" text="Writeups" />
             <h2 className="font-display section-title font-bold text-fg">Latest Research</h2>
           </div>
           <Link
