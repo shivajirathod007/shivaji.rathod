@@ -45,23 +45,29 @@ export function Turntable360() {
     const bitmap = bitmapsRef.current[frameIdx];
 
     if (bitmap) {
-      // Scale to fit canvas while preserving aspect ratio
       const imgAspect = bitmap.width / bitmap.height;
       const canvasAspect = cw / ch;
-      let drawW = cw;
-      let drawH = ch;
-      let drawX = 0;
-      let drawY = 0;
+
+      // Safe maximum width with at least 5% breathing room on each side so shoulders NEVER clip
+      const maxAllowedW = cw * 0.94;
+      let drawW: number;
+      let drawH: number;
 
       if (canvasAspect > imgAspect) {
         drawH = ch;
         drawW = ch * imgAspect;
-        drawX = (cw - drawW) / 2;
+        if (drawW > maxAllowedW) {
+          drawW = maxAllowedW;
+          drawH = drawW / imgAspect;
+        }
       } else {
-        drawW = cw;
-        drawH = cw / imgAspect;
-        drawY = (ch - drawH) / 2;
+        drawW = maxAllowedW;
+        drawH = drawW / imgAspect;
       }
+
+      const drawX = (cw - drawW) / 2;
+      // Position head near the top with clean breathing room
+      const drawY = 12;
 
       ctx.drawImage(bitmap, drawX, drawY, drawW, drawH);
     }
@@ -215,33 +221,22 @@ export function Turntable360() {
 
   return (
     <div className="relative w-full flex items-center justify-center select-none">
-      {/* ── Intense, Cinematic Spotlight Glow behind the Avatar ── */}
+      {/* ── Ambient Studio Backlight (Subtle, Seamless, No Box Outline) ── */}
       <div
         className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
         aria-hidden="true"
       >
-        {/* Core Vibrant Amber/Orange Backlight */}
+        {/* Soft, Warm Studio Halo */}
         <div
-          className={`w-[360px] sm:w-[480px] h-[360px] sm:h-[480px] rounded-full filter blur-[75px] transition-all duration-700 ${
-            isHovered ? 'opacity-85 scale-110' : 'opacity-65 scale-100'
-          }`}
+          className="w-[460px] sm:w-[580px] h-[460px] sm:h-[580px] rounded-full filter blur-[110px] opacity-40 pointer-events-none"
           style={{
             background:
-              'radial-gradient(circle, rgba(249, 115, 22, 0.5) 0%, rgba(255, 92, 40, 0.3) 35%, rgba(99, 102, 241, 0.25) 60%, transparent 75%)',
-          }}
-        />
-
-        {/* Ambient Halo Spread */}
-        <div
-          className="absolute w-[520px] sm:w-[680px] h-[520px] sm:h-[680px] rounded-full filter blur-[110px] opacity-40 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(circle, rgba(249, 115, 22, 0.3) 0%, rgba(99, 102, 241, 0.2) 45%, transparent 75%)',
+              'radial-gradient(circle at 50% 36%, rgba(249, 115, 22, 0.24) 0%, rgba(220, 38, 38, 0.1) 40%, rgba(99, 102, 241, 0.05) 60%, transparent 75%)',
           }}
         />
       </div>
 
-      {/* ── Pure, Borderless Standing Avatar Stage (Hover to Rotate) ── */}
+      {/* ── Pure, Borderless Standing Avatar Stage (Deep Gradual Dissolve, Zero Box Edge) ── */}
       <div
         ref={containerRef}
         onPointerEnter={handlePointerEnter}
@@ -250,11 +245,11 @@ export function Turntable360() {
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerLeave}
-        className="relative z-10 w-full h-[72vh] min-h-[520px] max-h-[800px] flex items-end justify-center cursor-ew-resize transition-transform duration-300"
+        className="relative z-10 w-full max-w-[700px] h-[84vh] min-h-[600px] max-h-[900px] flex items-end justify-center cursor-ew-resize"
         style={{
-          // Smooth vertical fade at the bottom into the dark canvas
-          maskImage: 'linear-gradient(to bottom, black 82%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 82%, transparent 100%)',
+          // Deep gradual fade from chest down: completely dissolves into dark background with zero hard edge
+          maskImage: 'linear-gradient(to bottom, black 64%, rgba(0, 0, 0, 0.45) 82%, transparent 99%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 64%, rgba(0, 0, 0, 0.45) 82%, transparent 99%)',
         }}
         aria-label="Interactive 360° Portrait of Shivaji Rathod. Hover cursor horizontally to rotate."
         role="img"
@@ -266,10 +261,10 @@ export function Turntable360() {
           </div>
         )}
 
-        {/* Crystal-Clear Canvas with Grounding Drop Shadow */}
+        {/* Crystal-Clear Canvas with Pure Grounding Drop Shadow — Natural Seamless Bleed */}
         <canvas
           ref={canvasRef}
-          className="w-full h-full object-contain pointer-events-none filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.8)]"
+          className="w-full h-full object-contain pointer-events-none filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.85)]"
         />
       </div>
     </div>

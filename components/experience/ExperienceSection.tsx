@@ -4,12 +4,12 @@ import { VerticalTimeline, type TimelineEntry } from './VerticalTimeline';
 
 const TIMELINE_DATA: TimelineEntry[] = [
   {
-    title: 'AI Security & Vulnerability Research Intern',
+    title: 'Security Engineering Intern (AI Security)',
     org: 'Accion Labs',
     location: 'Pune, India',
     period: '2025 – Present',
     type: 'work',
-    meta: 'LLM Security & Threat Modeling',
+    meta: 'AI SECURITY INTERN',
     bullets: [
       'Conduct AI security assessments, prompt-injection auditing, and vulnerability discovery on production enterprise models.',
       'Assist Red Team operations simulating adversarial attacks against cloud-hosted microservices and auth endpoints.',
@@ -17,12 +17,12 @@ const TIMELINE_DATA: TimelineEntry[] = [
     ],
   },
   {
-    title: 'Cybersecurity Co-Head & Track Lead',
+    title: 'Cybersecurity Co-Head',
     org: 'Google Developer Groups on Campus (GDGOC)',
     location: 'VIT Pune',
     period: '2024 – Present',
     type: 'leadership',
-    meta: 'Community & Technical Mentorship',
+    meta: 'CYBERSECURITY CO-HEAD',
     bullets: [
       'Lead student workshops on web exploitation, CTF strategies, cloud security fundamentals, and defensive engineering.',
       'Organized technical bootcamps reaching 400+ aspiring security researchers and engineers.',
@@ -34,21 +34,21 @@ const TIMELINE_DATA: TimelineEntry[] = [
     location: 'Remote',
     period: '2024 – 2025',
     type: 'work',
-    meta: 'Hall of Fame & Letter of Recognition',
+    meta: 'HALL OF FAME (P1)',
     bullets: [
-      'Discovered and responsibly reported a critical P1 authentication bypass vulnerability affecting NASA web infrastructure.',
-      'Received official Letter of Recognition from NASA Security Operations and inducted into NASA Hall of Fame.',
+      'Recognised in NASA\'s VDP Hall of Fame for reporting a critical (P1) authentication bypass affecting NASA infrastructure.',
+      'Received official Letter of Recognition from NASA Security Operations.',
     ],
   },
   {
     title: 'B.Tech in Computer Engineering',
     org: 'Vishwakarma Institute of Technology (VIT Pune)',
     location: 'Pune, India',
-    period: '2022 – 2026',
+    period: '2024 – 2028',
     type: 'education',
-    meta: 'Final Year Student',
+    meta: 'B.TECH 2028',
     bullets: [
-      'Focus areas: Network Security, Cryptography, Distributed Systems, Cloud Architecture, and Operating Systems.',
+      'Computer Engineering student at VIT Pune focusing on Network Security, Cryptography, Distributed Systems, and Cloud Architecture.',
       'Head Coordinator for the IEI National Conference 2025; active participant in national hackathons and CTF competitions.',
     ],
   },
@@ -64,7 +64,7 @@ export function ExperienceSection() {
             Work &amp; Academic Journey
           </h2>
           <p className="text-fg-muted mt-3 text-lg max-w-xl">
-            From discovering P1 vulnerabilities in federal infrastructure to building AI guardrails at Accion Labs.
+            From reporting P1 vulnerabilities in NASA infrastructure to building AI guardrails at Accion Labs.
           </p>
         </ScrollReveal>
 

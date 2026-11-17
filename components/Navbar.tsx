@@ -3,25 +3,27 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
+// 7 items max, with Capabilities -> Skills, and Achievements + Credentials -> Recognition
 const NAV_LINKS = [
   { label: 'About',          href: '/#about' },
-  { label: 'Capabilities',   href: '/#skills' },
+  { label: 'Skills',         href: '/#skills' },
   { label: 'Experience',     href: '/#experience' },
   { label: 'Projects',       href: '/#projects' },
-  { label: 'Achievements',   href: '/#achievements' },
-  { label: 'Credentials',    href: '/#certifications' },
+  { label: 'Recognition',    href: '/#recognition' },
   { label: 'Writeups',       href: '/blog' },
   { label: 'Contact',        href: '/#contact' },
 ];
 
 const SECTION_IDS = [
+  'hero',
   'about',
   'skills',
   'experience',
   'projects',
+  'recognition',
   'achievements',
   'certifications',
   'contact',
@@ -34,7 +36,13 @@ export function Navbar() {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      // While hero is in view (near the top of the page), clear active section!
+      if (window.scrollY < 300) {
+        setActiveSection('');
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -44,11 +52,22 @@ export function Navbar() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+            // When hero is intersecting, clear active section!
+            if (entry.target.id === 'hero') {
+              setActiveSection('');
+            } else if (
+              entry.target.id === 'recognition' ||
+              entry.target.id === 'achievements' ||
+              entry.target.id === 'certifications'
+            ) {
+              setActiveSection('recognition');
+            } else {
+              setActiveSection(entry.target.id);
+            }
           }
         });
       },
-      { rootMargin: '-25% 0px -60% 0px', threshold: 0 }
+      { rootMargin: '-25% 0px -55% 0px', threshold: 0 }
     );
 
     SECTION_IDS.forEach((id) => {
@@ -77,22 +96,23 @@ export function Navbar() {
   }, []);
 
   const isActive = (href: string) => {
+    if (!activeSection) return false;
     if (href === '/blog') return false;
-    return activeSection === href.replace('/#', '');
+    const target = href.replace('/#', '');
+    return activeSection === target;
   };
 
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-5 pointer-events-none">
         <nav
-          className={`mx-auto flex max-w-7xl items-center justify-between px-6 py-3 rounded-full pointer-events-auto transition-all duration-300 ${
-            scrolled
-              ? 'bg-[#090b12]/92 backdrop-blur-xl border border-white/[0.12] shadow-[0_12px_40px_rgba(0,0,0,0.6)]'
-              : 'bg-transparent border border-transparent'
-          }`}
+          className={`mx-auto flex max-w-7xl items-center justify-between px-6 py-3 rounded-full pointer-events-auto transition-all duration-300 ${scrolled
+            ? 'bg-[#090b12]/92 backdrop-blur-xl border border-white/[0.12] shadow-[0_12px_40px_rgba(0,0,0,0.6)]'
+            : 'bg-transparent border border-transparent'
+            }`}
           aria-label="Main navigation"
         >
-          {/* Brand Wordmark (Bigger & Bolder) */}
+          {/* Brand Wordmark */}
           <Link
             href="/"
             className="flex items-center gap-3 group focus-visible:outline-none"
@@ -106,17 +126,16 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Nav Links (Prominent, High-Contrast) */}
+          {/* Desktop Nav Links (Max 7 items) */}
           <ul className="hidden lg:flex items-center gap-1.5 list-none m-0 p-0">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:text-white ${
-                    isActive(link.href)
-                      ? 'text-white font-semibold'
-                      : 'text-fg-muted hover:bg-white/[0.04]'
-                  }`}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:text-white ${isActive(link.href)
+                    ? 'text-white font-semibold'
+                    : 'text-fg-muted hover:bg-white/[0.04]'
+                    }`}
                 >
                   {link.label}
                   {isActive(link.href) && (
@@ -136,14 +155,15 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             <ThemeToggle />
 
-            {/* Read Writeups CTA */}
-            <Link
-              href="/blog"
+            {/* Primary Orange Nav Button: Download CV */}
+            <a
+              href="/Shivaji_Rathod_CV.pdf"
+              download="Shivaji_Rathod_CV.pdf"
               className="hidden sm:inline-flex items-center gap-2 h-9 px-5 rounded-full text-xs sm:text-sm font-semibold bg-accent text-white hover:brightness-110 shadow-[0_0_20px_rgba(249,115,22,0.4)] transition-all"
             >
-              <span>Writeups</span>
-              <ArrowUpRight size={14} />
-            </Link>
+              <Download size={14} />
+              <span>Download CV</span>
+            </a>
 
             {/* Mobile Hamburger Toggle */}
             <button
@@ -203,11 +223,10 @@ export function Navbar() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className={`block px-4 py-2.5 rounded-xl text-base transition-colors ${
-                          isActive(link.href)
-                            ? 'text-accent bg-accent/10 border border-accent/20 font-semibold'
-                            : 'text-fg-muted hover:text-white hover:bg-white/[0.04]'
-                        }`}
+                        className={`block px-4 py-2.5 rounded-xl text-base transition-colors ${isActive(link.href)
+                          ? 'text-accent bg-accent/10 border border-accent/20 font-semibold'
+                          : 'text-fg-muted hover:text-white hover:bg-white/[0.04]'
+                          }`}
                         onClick={() => setMobileOpen(false)}
                       >
                         {link.label}
@@ -218,14 +237,15 @@ export function Navbar() {
               </div>
 
               <div className="pt-6 border-t border-white/[0.08]">
-                <Link
-                  href="/blog"
+                <a
+                  href="/Shivaji_Rathod_CV.pdf"
+                  download="Shivaji_Rathod_CV.pdf"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-sm font-semibold bg-accent text-white"
                 >
-                  <span>Explore Writeups</span>
-                  <ArrowUpRight size={15} />
-                </Link>
+                  <Download size={15} />
+                  <span>Download CV</span>
+                </a>
               </div>
             </motion.div>
           </>

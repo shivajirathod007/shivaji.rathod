@@ -1,6 +1,6 @@
 import { SectionLabel } from '@/components/SectionLabel';
 import { ScrollReveal } from '@/components/ScrollReveal';
-import { MapPin, Mail, ExternalLink, ShieldCheck, Terminal, Award } from 'lucide-react';
+import { MapPin, Mail, ExternalLink, ShieldCheck, Award } from 'lucide-react';
 
 export function AboutSection() {
   return (
@@ -25,10 +25,10 @@ export function AboutSection() {
 
             <div className="space-y-4 text-fg-muted text-lg leading-relaxed font-normal">
               <p>
-                I am a cybersecurity researcher and final-year Computer Engineering student at <strong className="text-fg font-medium">VIT Pune</strong>, specializing in cloud security, vulnerability research, and application security. My work bridges both offensive and defensive disciplines — identifying systemic vulnerabilities before attackers do, and architecting systems that resist compromise.
+                I am a cybersecurity researcher and Computer Engineering student at <strong className="text-fg font-medium">VIT Pune</strong>, specializing in cloud security, vulnerability research, and application security. My work bridges both offensive and defensive disciplines — identifying systemic vulnerabilities before attackers do, and architecting systems that resist compromise.
               </p>
               <p>
-                At <strong className="text-fg font-medium">Accion Labs</strong>, I conduct AI security assessments, support Red Team adversarial simulations, and help engineering teams embed security into automated CI/CD pipelines. In independent vulnerability research, I uncovered a <strong className="text-fg font-medium">critical P1 authentication bypass in NASA infrastructure</strong>, resulting in official induction into the NASA Hall of Fame and a Letter of Recognition.
+                As a Security Engineering Intern at <strong className="text-fg font-medium">Accion Labs</strong>, I conduct AI security assessments, support Red Team adversarial simulations, and help engineering teams embed security into automated CI/CD pipelines. Recognised in <strong className="text-fg font-medium">NASA&apos;s VDP Hall of Fame for reporting a critical (P1) authentication bypass</strong> and received an official Letter of Recognition.
               </p>
               <p>
                 I build pragmatic security tools: from an exposure intelligence platform with post-quantum cryptography migration metrics (TRINETRA), to a privacy proxy that redacts PII before prompts reach external LLMs (AI-RAKSHAK), and an adaptive WAF.
@@ -46,7 +46,7 @@ export function AboutSection() {
                 </div>
                 <div>
                   <h4 className="font-display font-bold text-fg text-base">Key Distinction</h4>
-                  <p className="font-mono text-xs text-accent">NASA VDP Hall of Fame Inductee</p>
+                  <p className="font-mono text-xs text-accent">NASA VDP Hall of Fame (P1 Recognition)</p>
                 </div>
               </div>
 

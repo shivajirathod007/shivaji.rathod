@@ -48,8 +48,39 @@ const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border bg-bg-surface">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <footer className="group relative overflow-hidden border-t border-white/[0.08] bg-[#07090e] pt-14 pb-8 sm:pb-12">
+      {/* ── Ambient Warm Lighting ── */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 50% at 50% 100%, rgba(249, 115, 22, 0.06) 0%, transparent 70%)',
+        }}
+      />
+
+      {/* ── Colossal Transparent "SHIVAJI" Watermark at Site Base (Address Bar Edge) ── */}
+      <div
+        className="pointer-events-none select-none absolute bottom-0 left-1/2 -translate-x-1/2 w-full overflow-hidden z-0 flex items-end justify-center"
+        aria-hidden="true"
+      >
+        <span
+          className="font-display font-black uppercase text-center tracking-tighter leading-[0.72] whitespace-nowrap block text-transparent select-none transition-all duration-700"
+          style={{
+            fontSize: 'clamp(5.5rem, 21vw, 24rem)',
+            WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.13)',
+            backgroundImage:
+              'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 65%, transparent 100%)',
+            WebkitBackgroundClip: 'text',
+            letterSpacing: '-0.04em',
+          }}
+        >
+          SHIVAJI
+        </span>
+      </div>
+
+      {/* ── Foreground Footer Links & Content ── */}
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 sm:col-span-1">
@@ -99,7 +130,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-12 border-t border-white/[0.08] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-fg-muted">
             © {year} Shivaji Rathod. Built with Next.js.
           </p>
