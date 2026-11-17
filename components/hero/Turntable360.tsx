@@ -69,6 +69,12 @@ export function Turntable360() {
       // Position head near the top with clean breathing room
       const drawY = 12;
 
+      // Match the fade to the bitmap bounds, which vary relative to the stage on resize.
+      const maskSize = `${(drawW / cw) * 100}% ${(drawH / ch) * 100}%`;
+      if (canvas.style.getPropertyValue('--portrait-mask-size') !== maskSize) {
+        canvas.style.setProperty('--portrait-mask-size', maskSize);
+      }
+
       ctx.drawImage(bitmap, drawX, drawY, drawW, drawH);
     }
   }, []);
@@ -236,7 +242,7 @@ export function Turntable360() {
         />
       </div>
 
-      {/* ── Pure, Borderless Standing Avatar Stage (Deep Gradual Dissolve, Zero Box Edge) ── */}
+      {/* Standing avatar stage */}
       <div
         ref={containerRef}
         onPointerEnter={handlePointerEnter}
@@ -246,11 +252,6 @@ export function Turntable360() {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerLeave}
         className="relative z-10 w-full max-w-[700px] h-[min(125cqw,36rem)] lg:h-[84vh] lg:min-h-[600px] lg:max-h-[900px] flex items-end justify-center cursor-ew-resize touch-pan-y"
-        style={{
-          // Deep gradual fade from chest down: completely dissolves into dark background with zero hard edge
-          maskImage: 'linear-gradient(to bottom, black 64%, rgba(0, 0, 0, 0.45) 82%, transparent 99%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 64%, rgba(0, 0, 0, 0.45) 82%, transparent 99%)',
-        }}
         aria-label="Interactive 360° Portrait of Shivaji Rathod. Hover cursor horizontally to rotate."
         role="img"
       >
@@ -261,10 +262,16 @@ export function Turntable360() {
           </div>
         )}
 
-        {/* Crystal-Clear Canvas with Pure Grounding Drop Shadow — Natural Seamless Bleed */}
         <canvas
           ref={canvasRef}
-          className="w-full h-full object-contain pointer-events-none filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.85)]"
+          className="pointer-events-none h-full w-full object-contain"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent, black 3% 49%, rgb(0 0 0 / 0.92) 61%, rgb(0 0 0 / 0.58) 75%, rgb(0 0 0 / 0.18) 89%, transparent 99%), linear-gradient(to right, transparent, black 11% 89%, transparent)',
+            maskPosition: 'center top',
+            maskRepeat: 'no-repeat',
+            maskSize: 'var(--portrait-mask-size, 100% 100%)',
+            maskComposite: 'intersect',
+          }}
         />
       </div>
     </div>
