@@ -1,5 +1,8 @@
 'use client';
-import { useEffect, useRef } from 'react';
+
+import Script from 'next/script';
+import { useTheme } from 'next-themes';
+import { useEffect, useRef, useState } from 'react';
 
 interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
@@ -17,69 +20,51 @@ declare global {
   }
 }
 
-// Module-level guards — survive React Strict Mode double-invoke
-const SCRIPT_ID = 'cf-turnstile-script';
-let scriptLoading = false;
-
 export function TurnstileWidget({ onVerify, onError }: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const widgetIdRef = useRef<string | null>(null);
+  const { resolvedTheme } = useTheme();
+  const [ready, setReady] = useState(false);
+  const [size, setSize] = useState<'normal' | 'compact'>();
 
-  // 1x00000000000000000000BB = Cloudflare always-pass visible test key
+  // Cloudflare's always-pass test key is used when no local key is configured.
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000BB';
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const renderWidget = () => {
-      if (!window.turnstile) return;
-      // If this container already has a widget iframe, skip
-      if (container.querySelector('iframe')) return;
-      if (widgetIdRef.current) return;
-      widgetIdRef.current = window.turnstile.render(container, {
-        sitekey: siteKey,
-        callback: onVerify,
-        'error-callback': onError ?? (() => {}),
-        theme: 'dark',
-      });
-    };
+    const observer = new ResizeObserver(([entry]) => {
+      setSize(entry.contentRect.width < 300 ? 'compact' : 'normal');
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
-    if (window.turnstile) {
-      renderWidget();
-    } else if (!document.getElementById(SCRIPT_ID) && !scriptLoading) {
-      scriptLoading = true;
-      const prev = window.onTurnstileLoad;
-      window.onTurnstileLoad = () => {
-        prev?.();
-        renderWidget();
-      };
-      const script = document.createElement('script');
-      script.id = SCRIPT_ID;
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit';
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
-    } else {
-      // Script loading — wait for it
-      const interval = setInterval(() => {
-        if (window.turnstile) {
-          clearInterval(interval);
-          renderWidget();
-        }
-      }, 150);
-      return () => clearInterval(interval);
-    }
+  useEffect(() => {
+    const container = containerRef.current;
+    const turnstile = window.turnstile;
+    if (!container || !turnstile || !ready || !resolvedTheme || !size) return;
 
-    return () => {
-      if (widgetIdRef.current && window.turnstile) {
-        try { window.turnstile.remove(widgetIdRef.current); } catch {}
-        widgetIdRef.current = null;
-      }
-    };
-  // onVerify/onError are stable in parent (setTurnstileToken is a setState setter)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteKey]);
+    onVerify('');
+    const widgetId = turnstile.render(container, {
+      sitekey: siteKey,
+      callback: onVerify,
+      'error-callback': onError ?? (() => {}),
+      'expired-callback': () => onVerify(''),
+      theme: resolvedTheme,
+      size,
+    });
 
-  return <div ref={containerRef} className="mt-2 min-h-[65px]" />;
+    return () => turnstile.remove(widgetId);
+  }, [ready, resolvedTheme, size, siteKey, onVerify, onError]);
+
+  return (
+    <>
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+        onReady={() => setReady(true)}
+      />
+      <div ref={containerRef} className={size === 'compact' ? 'mt-2 min-h-[140px]' : 'mt-2 min-h-[65px]'} />
+    </>
+  );
 }

@@ -16,8 +16,8 @@ function Toast({ status, message }: ToastProps) {
       aria-live="polite"
       className={`flex items-center gap-3 rounded-lg border p-4 text-sm ${
         isSuccess
-          ? 'border-volt/40 bg-volt/10 text-volt'
-          : 'border-orange/40 bg-orange/10 text-orange'
+          ? 'border-volt/40 bg-volt/10 text-volt-ink'
+          : 'border-orange/40 bg-orange/10 text-accent-ink'
       }`}
     >
       {isSuccess ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
@@ -82,7 +82,7 @@ export function ContactForm() {
   };
 
   const inputClass =
-    'w-full rounded-md border border-border bg-bg-elevated px-4 py-3 text-sm text-fg placeholder-fg-muted transition-colors focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange';
+    'w-full rounded-md border border-border bg-bg-elevated px-4 py-3 text-base sm:text-sm text-fg placeholder-fg-muted transition-colors focus:border-orange focus:outline-none focus:ring-1 focus:ring-orange';
   const labelClass = 'block font-mono text-xs font-medium uppercase tracking-wider text-fg-muted mb-2';
 
   return (
@@ -93,7 +93,7 @@ export function ContactForm() {
         <input id="hp-field" name="_honeypot" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-5">
+      <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
         <div>
           <label htmlFor="contact-name" className={labelClass}>Name</label>
           <input
@@ -143,10 +143,10 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 font-medium text-white transition-all hover:bg-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange disabled:opacity-60 disabled:cursor-not-allowed min-h-[44px]"
+        className="inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 font-medium text-on-accent transition-all hover:bg-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange disabled:opacity-60 disabled:cursor-not-allowed min-h-[44px]"
       >
         {status === 'loading' ? (
-          <span className="animate-spin h-4 w-4 rounded-full border-2 border-white border-t-transparent" />
+          <span className="animate-spin h-4 w-4 rounded-full border-2 border-current border-t-transparent" />
         ) : (
           <Send size={15} />
         )}

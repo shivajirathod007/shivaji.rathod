@@ -19,32 +19,28 @@ export function ScrollReveal({
   direction = 'up',
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once, margin: '-8% 0px -8% 0px' });
+  const inView = useInView(ref, { once });
   const shouldReduceMotion = useReducedMotion();
 
-  if (shouldReduceMotion) {
-    return <div ref={ref} className={className}>{children}</div>;
-  }
-
   const initial: Record<string, number | string> = { opacity: 0 };
-  if (direction === 'up')    { initial.y = 36; }
+  if (direction === 'up')    { initial.y = 20; }
   if (direction === 'left')  { initial.x = -36; }
   if (direction === 'right') { initial.x = 36; }
   if (direction === 'scale') { initial.scale = 0.94; initial.y = 16; }
 
-  const animate = inView
+  const animate = inView || shouldReduceMotion
     ? { opacity: 1, y: 0, x: 0, scale: 1 }
     : initial;
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`motion-reduce:opacity-100! motion-reduce:transform-none! ${className}`}
       initial={initial}
       animate={animate}
       transition={{
-        duration: 0.6,
-        delay,
+        duration: shouldReduceMotion ? 0 : 0.45,
+        delay: shouldReduceMotion ? 0 : delay,
         ease: [0.16, 1, 0.3, 1],
       }}
     >

@@ -220,7 +220,7 @@ export function Turntable360() {
   };
 
   return (
-    <div className="relative w-full flex items-center justify-center select-none">
+    <div className="relative w-full flex items-center justify-center select-none @container">
       {/* ── Ambient Studio Backlight (Subtle, Seamless, No Box Outline) ── */}
       <div
         className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
@@ -245,7 +245,7 @@ export function Turntable360() {
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerLeave}
-        className="relative z-10 w-full max-w-[700px] h-[84vh] min-h-[600px] max-h-[900px] flex items-end justify-center cursor-ew-resize"
+        className="relative z-10 w-full max-w-[700px] h-[min(125cqw,36rem)] lg:h-[84vh] lg:min-h-[600px] lg:max-h-[900px] flex items-end justify-center cursor-ew-resize touch-pan-y"
         style={{
           // Deep gradual fade from chest down: completely dissolves into dark background with zero hard edge
           maskImage: 'linear-gradient(to bottom, black 64%, rgba(0, 0, 0, 0.45) 82%, transparent 99%)',

@@ -42,7 +42,7 @@ export function MagneticButton({
 
   const variantClasses = {
     primary:
-      'bg-accent text-white border border-transparent hover:brightness-110 shadow-[0_0_24px_rgba(255,106,61,0.35)] hover:shadow-[0_0_36px_rgba(255,106,61,0.5)]',
+      'bg-accent text-on-accent border border-transparent hover:brightness-110 shadow-[0_0_24px_rgba(255,106,61,0.35)] hover:shadow-[0_0_36px_rgba(255,106,61,0.5)]',
     secondary:
       'bg-transparent text-fg border border-border hover:border-fg/60 hover:bg-bg-elevated',
     ghost: 'bg-transparent text-fg-muted hover:text-fg border border-transparent',

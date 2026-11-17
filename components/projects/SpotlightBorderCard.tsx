@@ -39,7 +39,7 @@ export function SpotlightBorderCard({
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`group relative rounded-2xl border border-white/[0.08] bg-[#0d0f18]/80 backdrop-blur-md p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.2] hover:shadow-2xl hover:shadow-black/50 overflow-hidden flex flex-col justify-between ${className}`}
+      className={`group relative rounded-2xl border border-border bg-bg-surface p-4 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:border-border-strong hover:shadow-2xl hover:shadow-panel-shadow overflow-hidden flex flex-col justify-between ${className}`}
     >
       {/* Top accent accent glow bar */}
       <div
@@ -56,21 +56,21 @@ export function SpotlightBorderCard({
       />
 
       <div className="relative z-10">
-        <div className="flex items-start justify-between gap-4 mb-3">
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 mb-3">
           <div>
             {subtitle && (
-              <p className="font-mono text-xs font-semibold uppercase tracking-wider text-accent mb-1.5">
+              <p className="font-mono text-xs font-semibold uppercase tracking-wider text-accent-ink mb-1.5">
                 {subtitle}
               </p>
             )}
-            <h3 className="font-display font-bold text-2xl text-fg tracking-tight group-hover:text-accent transition-colors">
+            <h3 className="font-display font-bold text-2xl text-fg tracking-tight group-hover:text-accent-ink transition-colors">
               {title}
             </h3>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
             {isPrivate ? (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-amber-500/10 text-amber-ink border border-amber-500/20">
                 <Lock size={11} /> Internal
               </span>
             ) : link ? (
@@ -79,7 +79,7 @@ export function SpotlightBorderCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View ${title} on GitHub`}
-                className="p-2 rounded-lg text-fg-muted hover:text-fg hover:bg-white/[0.06] transition-colors"
+                className="p-2 rounded-lg text-fg-muted hover:text-fg hover:bg-fg/[0.06] transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
                 <ExternalLink size={16} />
@@ -93,18 +93,18 @@ export function SpotlightBorderCard({
         <ul className="space-y-2 mb-6">
           {description.map((d, i) => (
             <li key={i} className="text-sm text-fg-muted leading-relaxed flex items-start gap-2.5">
-              <span className="text-accent mt-1.5 shrink-0 text-xs">◆</span>
+              <span className="text-accent-ink mt-1.5 shrink-0 text-xs">◆</span>
               <span>{d}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="relative z-10 pt-4 border-t border-white/[0.06] flex flex-wrap gap-2">
+      <div className="relative z-10 pt-4 border-t border-border flex flex-wrap gap-2">
         {tech.map((t) => (
           <span
             key={t}
-            className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] text-fg-muted group-hover:border-white/[0.15] transition-colors"
+            className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-fg/[0.04] border border-border text-fg-muted group-hover:border-border-strong transition-colors"
           >
             {t}
           </span>

@@ -5,13 +5,13 @@ import { Mail, GitBranch, Link, ExternalLink } from 'lucide-react';
 
 export function ContactSection() {
   return (
-    <section id="contact" className="py-24 border-t border-border">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-start">
+    <section id="contact" className="section-space border-t border-border">
+      <div className="section-container">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Left: copy */}
           <ScrollReveal>
             <SectionLabel number="08" text="CONTACT" />
-            <h2 className="font-display text-4xl font-bold text-fg mb-4">
+            <h2 className="font-display section-title font-bold text-fg mb-4">
               Let&apos;s work together
             </h2>
             <p className="text-fg-muted leading-relaxed mb-8 max-w-md">
@@ -32,7 +32,7 @@ export function ContactSection() {
                   rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="flex items-center gap-3 text-sm text-fg-muted hover:text-fg transition-colors min-h-[44px]"
                 >
-                  <item.icon size={15} className="text-accent shrink-0" />
+                  <item.icon size={15} className="text-accent-ink shrink-0" />
                   {item.label}
                 </a>
               ))}

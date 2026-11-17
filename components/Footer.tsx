@@ -48,7 +48,7 @@ const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="group relative overflow-hidden border-t border-white/[0.08] bg-[#07090e] pt-14 pb-8 sm:pb-12">
+    <footer className="group relative overflow-hidden border-t border-border bg-bg-surface pt-14 pb-8 sm:pb-12">
       {/* ── Ambient Warm Lighting ── */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
@@ -67,10 +67,10 @@ export function Footer() {
         <span
           className="font-display font-black uppercase text-center tracking-tighter leading-[0.72] whitespace-nowrap block text-transparent select-none transition-all duration-700"
           style={{
-            fontSize: 'clamp(5.5rem, 21vw, 24rem)',
-            WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.13)',
+            fontSize: 'min(21vw, 24rem)',
+            WebkitTextStroke: '1.5px color-mix(in srgb, var(--fg) 13%, transparent)',
             backgroundImage:
-              'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 65%, transparent 100%)',
+              'linear-gradient(180deg, color-mix(in srgb, var(--fg) 12%, transparent), color-mix(in srgb, var(--fg) 2%, transparent) 65%, transparent)',
             WebkitBackgroundClip: 'text',
             letterSpacing: '-0.04em',
           }}
@@ -80,17 +80,17 @@ export function Footer() {
       </div>
 
       {/* ── Foreground Footer Links & Content ── */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+      <div className="relative z-10 section-container">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
           {/* Brand */}
-          <div className="col-span-2 sm:col-span-1">
-            <Link href="/" className="font-mono text-sm font-semibold text-fg hover:text-accent transition-colors">
-              SR<span className="text-accent">.</span>
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" className="font-mono text-sm font-semibold text-fg hover:text-accent-ink transition-colors">
+              SR<span className="text-accent-ink">.</span>
             </Link>
             <p className="mt-3 text-sm text-fg-muted max-w-xs">
               Cybersecurity researcher based in Pune, India.
             </p>
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-1 xl:gap-3">
               {SOCIAL_LINKS.map((s) => (
                 <a
                   key={s.label}
@@ -130,13 +130,13 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 border-t border-white/[0.08] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-12 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-fg-muted">
             © {year} Shivaji Rathod. Built with Next.js.
           </p>
           <a
             href="/.well-known/security.txt"
-            className="font-mono text-xs text-fg-muted hover:text-volt transition-colors"
+            className="font-mono text-xs text-fg-muted hover:text-volt-ink transition-colors"
           >
             security.txt
           </a>

@@ -56,19 +56,19 @@ const MATRIX_ROWS: SkillMatrixRow[] = [
 
 export function SkillsGrouped() {
   return (
-    <div className="w-full divide-y divide-white/[0.08] border-y border-white/[0.08] mt-8">
+    <div className="w-full divide-y divide-border border-y border-border mt-8">
       {MATRIX_ROWS.map((row, i) => (
         <ScrollReveal key={row.title} delay={i * 0.06}>
-          <div className="group relative py-8 sm:py-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 transition-all duration-300 hover:bg-white/[0.02] px-4 -mx-4 rounded-2xl">
+          <div className="group relative py-8 sm:py-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 transition-colors duration-300 hover:bg-fg/[0.02] px-4 -mx-4 rounded-2xl">
             {/* Left: Huge Title + Descriptive Subtext (Matching Reference) */}
-            <div className="max-w-xl">
+            <div className="min-w-0 max-w-xl lg:flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <span
                   className="h-2.5 w-2.5 rounded-full transition-transform duration-300 group-hover:scale-125 shrink-0"
                   style={{ backgroundColor: row.accent }}
                   aria-hidden="true"
                 />
-                <h3 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight group-hover:text-accent transition-colors">
+                <h3 className="font-display font-bold text-2xl sm:text-3xl lg:text-4xl text-fg tracking-tight group-hover:text-accent-ink transition-colors">
                   {row.title}
                 </h3>
               </div>
@@ -78,16 +78,16 @@ export function SkillsGrouped() {
             </div>
 
             {/* Right: Subtitle + Stack Badges + Circular Action Indicator */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-6 lg:justify-end shrink-0 pl-5 lg:pl-0">
-              <div className="flex flex-col sm:items-end gap-2.5">
-                <span className="font-mono text-xs font-semibold uppercase tracking-widest text-accent/80">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:gap-6 lg:justify-end min-w-0 lg:w-1/2 pl-5 lg:pl-0">
+              <div className="flex min-w-0 flex-col sm:items-end gap-2.5">
+                <span className="font-mono text-xs font-semibold uppercase tracking-widest text-accent-ink">
                   {row.subtitle}
                 </span>
                 <div className="flex flex-wrap items-center gap-2 sm:justify-end">
                   {row.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="font-mono text-xs sm:text-sm px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-fg-muted group-hover:text-white group-hover:border-white/[0.18] group-hover:bg-white/[0.07] transition-all"
+                      className="font-mono text-xs sm:text-sm px-3.5 py-1.5 rounded-full bg-fg/[0.04] border border-border text-fg-muted group-hover:text-fg group-hover:border-border-strong group-hover:bg-fg/[0.07] transition-all"
                     >
                       {skill}
                     </span>
@@ -97,7 +97,7 @@ export function SkillsGrouped() {
 
               {/* Circular Action Indicator (Ref: Reference image button on far right) */}
               <div
-                className="hidden sm:flex w-10 h-10 rounded-full border border-white/15 items-center justify-center text-white/50 group-hover:text-white group-hover:border-accent group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-all shrink-0"
+                className="hidden sm:flex w-10 h-10 rounded-full border border-border-strong items-center justify-center text-fg-muted group-hover:text-on-accent group-hover:border-accent group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-all shrink-0"
                 aria-hidden="true"
               >
                 <ArrowUpRight

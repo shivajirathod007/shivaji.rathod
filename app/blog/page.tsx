@@ -35,16 +35,16 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     <>
       <Navbar />
       <main className="min-h-screen pt-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
+        <div className="section-container py-12">
           <SectionLabel number="✦" text="BLOG" />
-          <h1 className="font-display text-5xl font-bold text-fg mb-4">Security Research</h1>
+          <h1 className="font-display section-title font-bold text-fg mb-4">Security Research</h1>
           <p className="text-fg-muted mb-10 max-w-xl">
             CVE writeups, vulnerability research, and technical notes. {allPosts.length} article{allPosts.length !== 1 ? 's' : ''}.
           </p>
 
           {allTags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-8">
-              <a href="/blog" className={`inline-flex items-center px-3 py-1 rounded-full font-mono text-xs border transition-all ${!tag ? 'bg-accent/15 text-accent border-accent/40' : 'border-border text-fg-muted hover:border-fg-muted'}`}>
+              <a href="/blog" className={`inline-flex items-center px-3 py-1 rounded-full font-mono text-xs border transition-all ${!tag ? 'bg-accent/15 text-accent-ink border-accent/40' : 'border-border text-fg-muted hover:border-fg-muted'}`}>
                 All
               </a>
               {allTags.map((t) => (
@@ -62,7 +62,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               name="q"
               defaultValue={q ?? ''}
               placeholder="Search posts…"
-              className="w-full max-w-md rounded-md border border-border bg-bg-surface px-4 py-2.5 text-sm text-fg placeholder-fg-muted focus:outline-none focus:ring-2 focus:ring-orange transition-colors"
+              className="w-full max-w-md rounded-md border border-border bg-bg-surface px-4 py-2.5 text-base sm:text-sm text-fg placeholder-fg-muted focus:outline-none focus:ring-2 focus:ring-orange transition-colors"
             />
           </form>
 

@@ -70,14 +70,14 @@ const ACHIEVEMENTS = [
 
 export function AchievementsSection() {
   return (
-    <section id="achievements" className="py-28 border-t border-white/[0.06] relative">
-      <div className="mx-auto max-w-6xl px-6 sm:px-8">
-        <ScrollReveal className="mb-14">
+    <section id="achievements" className="section-space border-t border-border relative">
+      <div className="section-container">
+        <ScrollReveal className="section-intro">
           <SectionLabel number="05" text="RECOGNITION &amp; IMPACT" />
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-fg tracking-tight">
+          <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Honors &amp; Accomplishments
           </h2>
-          <p className="text-fg-muted mt-3 text-lg max-w-xl">
+          <p className="text-fg-muted mt-3 text-base sm:text-lg max-w-xl">
             National finalist appearances, community leadership, and official security disclosures.
           </p>
         </ScrollReveal>
@@ -85,7 +85,7 @@ export function AchievementsSection() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {ACHIEVEMENTS.map((item, i) => (
             <ScrollReveal key={item.title} delay={i * 0.05}>
-              <div className="group rounded-2xl border border-white/[0.08] bg-[#0d0f18]/80 backdrop-blur-md p-6 h-full flex flex-col justify-between hover:border-white/[0.2] transition-all hover:shadow-xl hover:shadow-black/40">
+              <div className="group rounded-2xl border border-border bg-bg-surface p-4 sm:p-6 h-full flex flex-col justify-between hover:border-border-strong transition-all hover:shadow-xl hover:shadow-panel-shadow">
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-4">
                     <div
@@ -100,7 +100,7 @@ export function AchievementsSection() {
                     </div>
 
                     {item.badge && (
-                      <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full font-medium bg-emerald-500/10 text-volt-ink border border-emerald-500/20">
                         {item.badge}
                       </span>
                     )}
@@ -109,7 +109,7 @@ export function AchievementsSection() {
                   <p className="font-mono text-[11px] font-semibold text-fg-muted uppercase tracking-wider mb-1.5">
                     {item.category}
                   </p>
-                  <h3 className="font-display font-bold text-fg text-lg mb-2.5 leading-snug group-hover:text-accent transition-colors">
+                  <h3 className="font-display font-bold text-fg text-lg mb-2.5 leading-snug group-hover:text-accent-ink transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-sm text-fg-muted leading-relaxed">

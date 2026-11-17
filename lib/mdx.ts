@@ -35,6 +35,14 @@ export function calcReadingTime(content: string): string {
   return `${mins} min read`;
 }
 
+export function headingId(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 export function extractToc(source: string): TocItem[] {
   const lines = source.split('\n');
   return lines
@@ -42,12 +50,7 @@ export function extractToc(source: string): TocItem[] {
     .map((l) => {
       const level = (l.match(/^(#{2,3})/)?.[1].length ?? 2) as 2 | 3;
       const text = l.replace(/^#{2,3}\s/, '').trim();
-      const id = text
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/^-|-$/g, '');
-      return { id, text, level };
+      return { id: headingId(text), text, level };
     });
 }
 

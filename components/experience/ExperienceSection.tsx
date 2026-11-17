@@ -56,14 +56,14 @@ const TIMELINE_DATA: TimelineEntry[] = [
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="py-28 border-t border-white/[0.06] relative">
-      <div className="mx-auto max-w-6xl px-6 sm:px-8">
-        <ScrollReveal className="mb-14">
+    <section id="experience" className="section-space border-t border-border relative">
+      <div className="section-container">
+        <ScrollReveal className="section-intro">
           <SectionLabel number="03" text="EXPERIENCE &amp; EDUCATION" />
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-fg tracking-tight">
+          <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Work &amp; Academic Journey
           </h2>
-          <p className="text-fg-muted mt-3 text-lg max-w-xl">
+          <p className="text-fg-muted mt-3 text-base sm:text-lg max-w-xl">
             From reporting P1 vulnerabilities in NASA infrastructure to building AI guardrails at Accion Labs.
           </p>
         </ScrollReveal>

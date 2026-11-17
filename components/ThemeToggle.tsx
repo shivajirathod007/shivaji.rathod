@@ -1,61 +1,28 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
+import { useSyncExternalStore } from 'react';
+
+const subscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Render a placeholder before mount to prevent hydration mismatch
-  if (!mounted) {
-    return (
-      <span
-        className="inline-flex h-9 w-9 items-center justify-center rounded-md"
-        aria-hidden="true"
-      />
-    );
-  }
-
-  const isDark = theme === 'dark';
+  const { setTheme } = useTheme();
+  const hydrated = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot);
 
   return (
     <button
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="relative inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-fg-muted transition-colors hover:border-orange hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      type="button"
+      disabled={!hydrated}
+      onClick={() => setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark')}
+      className="inline-flex size-11 shrink-0 items-center justify-center rounded-md border border-border text-fg-muted transition-colors hover:border-accent hover:text-fg sm:size-9"
     >
-      <AnimatePresence mode="wait" initial={false}>
-        {isDark ? (
-          <motion.span
-            key="moon"
-            initial={{ scale: 0, opacity: 0, rotate: -45 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            exit={{ scale: 0, opacity: 0, rotate: 45 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
-            className="flex items-center justify-center"
-          >
-            <Moon size={16} />
-          </motion.span>
-        ) : (
-          <motion.span
-            key="sun"
-            initial={{ scale: 0, opacity: 0, rotate: 45 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            exit={{ scale: 0, opacity: 0, rotate: -45 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
-            className="flex items-center justify-center"
-          >
-            <Sun size={16} />
-          </motion.span>
-        )}
-      </AnimatePresence>
+      <span className="sr-only hidden dark:block">Switch to light theme</span>
+      <span className="sr-only dark:hidden">Switch to dark theme</span>
+      <Moon size={16} className="hidden dark:block" aria-hidden="true" />
+      <Sun size={16} className="dark:hidden" aria-hidden="true" />
     </button>
   );
 }

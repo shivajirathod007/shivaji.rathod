@@ -47,7 +47,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
             item.level === 3 ? 'pl-4' : ''
           } ${
             activeId === item.id
-              ? 'text-accent font-medium'
+              ? 'text-accent-ink font-medium'
               : 'text-fg-muted hover:text-fg'
           }`}
         >

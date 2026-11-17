@@ -32,7 +32,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-12 sm:pt-32 sm:pb-20"
+      className="relative min-h-svh flex items-center justify-center overflow-hidden pt-28 pb-12 sm:pt-32 sm:pb-20"
     >
       {/* ── Ambient Background Lighting ── */}
       <div
@@ -46,20 +46,20 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 sm:px-10 lg:px-12">
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-10 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-(--section-gutter) lg:px-12">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-10 items-center">
 
           {/* ── LEFT: Editorial Typography (6 Columns) ── */}
           <motion.div
-            className="lg:col-span-6 w-full max-w-2xl"
+            className="min-w-0 lg:col-span-6 w-full max-w-2xl @container motion-reduce:*:opacity-100! motion-reduce:*:transform-none!"
             variants={containerVariants}
             initial="hidden"
             animate="show"
           >
             {/* Eyebrow Accent Line */}
             <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6">
-              <span className="h-[2px] w-8 bg-accent rounded-full" aria-hidden="true" />
-              <p className="font-mono text-xs font-semibold text-accent tracking-widest uppercase">
+              <span className="h-[2px] w-8 shrink-0 bg-accent rounded-full" aria-hidden="true" />
+              <p className="font-mono text-xs font-semibold text-accent-ink tracking-widest uppercase">
                 Cybersecurity Researcher · Cloud Security
               </p>
             </motion.div>
@@ -71,10 +71,10 @@ export function HeroSection() {
 
             {/* Editorial Dual-Type Subtitle */}
             <motion.div variants={fadeUp} className="mb-6">
-              <p className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug">
+              <p className="font-display text-2xl sm:text-3xl font-bold text-fg tracking-tight leading-snug">
                 I break things to find what&apos;s exploitable.
                 <br />
-                <span className="font-serif italic font-normal text-white/90 text-2xl sm:text-3xl">
+                <span className="font-serif italic font-normal text-fg/90 text-2xl sm:text-3xl">
                   also help to fix them.
                 </span>
               </p>
@@ -85,15 +85,15 @@ export function HeroSection() {
               variants={fadeUp}
               className="text-base sm:text-lg text-fg-muted leading-relaxed mb-9 max-w-xl font-normal"
             >
-              Computer Engineering student at <strong className="text-white font-medium">VIT Pune</strong> and Security Engineering Intern at <strong className="text-white font-medium">Accion Labs</strong>. Recognised in NASA&apos;s VDP Hall of Fame for reporting a critical (P1) authentication bypass.
+              Computer Engineering student at <strong className="text-fg font-medium">VIT Pune</strong> and Security Engineering Intern at <strong className="text-fg font-medium">Accion Labs</strong>. Recognised in NASA&apos;s VDP Hall of Fame for reporting a critical (P1) authentication bypass.
             </motion.p>
 
             {/* High-Contrast Action Buttons in Sentence Case */}
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4 mb-12">
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
               {/* Primary Orange Button */}
               <Link
                 href="/#projects"
-                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-accent text-white font-semibold text-sm hover:brightness-110 shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-accent text-on-accent font-semibold text-sm hover:brightness-110 shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <span>Explore my work</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -102,9 +102,9 @@ export function HeroSection() {
               {/* Outline Button */}
               <Link
                 href="/#about"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/[0.04] text-white border border-white/[0.2] font-medium text-sm hover:border-white/[0.4] hover:bg-white/[0.08] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-fg/[0.04] text-fg border border-border-strong font-medium text-sm hover:border-border-strong hover:bg-fg/[0.08] hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
-                <UserCheck size={16} className="text-accent" />
+                <UserCheck size={16} className="text-accent-ink" />
                 <span>About me</span>
               </Link>
 
@@ -112,7 +112,7 @@ export function HeroSection() {
               <a
                 href="/Shivaji_Rathod_CV.pdf"
                 download="Shivaji_Rathod_CV.pdf"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/[0.04] text-white border border-white/[0.2] font-medium text-sm hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-fg/[0.04] text-fg border border-border-strong font-medium text-sm hover:border-accent/50 hover:bg-accent/10 hover:text-accent-ink hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
                 <Download size={16} />
                 <span>Download CV</span>
@@ -122,10 +122,10 @@ export function HeroSection() {
             {/* Verified Statistics Bar (Matching CV specifications) */}
             <motion.div
               variants={fadeUp}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-5 pt-8 border-t border-white/[0.08]"
+              className="grid grid-cols-2 @lg:grid-cols-4 gap-4 sm:gap-5 pt-6 sm:pt-8 border-t border-border"
             >
               <div>
-                <span className="font-display font-bold text-2xl sm:text-3xl text-accent block">
+                <span className="font-display font-bold text-2xl sm:text-3xl text-accent-ink block">
                   NASA
                 </span>
                 <p className="font-mono text-xs text-fg-muted uppercase tracking-wider mt-1">
@@ -133,7 +133,7 @@ export function HeroSection() {
                 </p>
               </div>
 
-              <div className="border-l border-white/[0.08] pl-5">
+              <div className="border-l border-border pl-4">
                 <span className="font-display font-bold text-2xl sm:text-3xl text-fg block">
                   Accion Labs
                 </span>
@@ -142,7 +142,7 @@ export function HeroSection() {
                 </p>
               </div>
 
-              <div className="border-l border-white/[0.08] pl-5">
+              <div className="@lg:border-l border-border @lg:pl-4">
                 <span className="font-display font-bold text-2xl sm:text-3xl text-fg block">
                   GDGOC
                 </span>
@@ -151,7 +151,7 @@ export function HeroSection() {
                 </p>
               </div>
 
-              <div className="border-l border-white/[0.08] pl-5">
+              <div className="border-l border-border pl-4">
                 <span className="font-display font-bold text-2xl sm:text-3xl text-fg block">
                   VIT Pune
                 </span>
@@ -164,7 +164,7 @@ export function HeroSection() {
 
           {/* ── RIGHT: Massive Standing 3D Portrait (6 Columns — Wide Section) ── */}
           <motion.div
-            className="lg:col-span-6 flex justify-center lg:justify-end items-end relative w-full lg:-mt-12 lg:-mb-12"
+            className="lg:col-span-6 flex justify-center lg:justify-end items-end relative w-full min-w-0 lg:-mt-12 lg:-mb-12 motion-reduce:opacity-100! motion-reduce:transform-none!"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.15 }}

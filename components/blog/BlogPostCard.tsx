@@ -22,7 +22,7 @@ export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group block rounded-lg border border-border bg-bg-surface p-6 transition-all hover:border-fg-muted hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange ${featured ? 'md:p-8' : ''}`}
+      className={`group block rounded-lg border border-border bg-bg-surface p-4 sm:p-6 transition-all hover:border-fg-muted hover:-translate-y-0.5 hover:shadow-lg hover:shadow-panel-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange ${featured ? 'md:p-8' : ''}`}
     >
       {/* Top accent line */}
       <div className="mb-4 h-[2px] w-10 rounded-full bg-accent group-hover:w-16 transition-all duration-300" />
@@ -37,7 +37,7 @@ export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
       )}
 
       {/* Title */}
-      <h3 className={`font-display font-bold text-fg group-hover:text-accent transition-colors ${featured ? 'text-2xl' : 'text-lg'} leading-tight mb-2`}>
+      <h3 className={`font-display font-bold text-fg group-hover:text-accent-ink transition-colors ${featured ? 'text-2xl' : 'text-lg'} leading-tight mb-2`}>
         {post.title}
       </h3>
 
@@ -47,7 +47,7 @@ export function BlogPostCard({ post, featured = false }: BlogPostCardProps) {
       </p>
 
       {/* Meta */}
-      <div className="flex items-center gap-4 text-xs text-fg-muted font-mono">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-fg-muted font-mono">
         <span className="flex items-center gap-1">
           <Calendar size={12} />
           {formatDate(post.date)}

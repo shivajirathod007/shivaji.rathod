@@ -8,14 +8,14 @@ interface TagChipProps {
 }
 
 const TAG_STYLES: Record<string, string> = {
-  CVE: 'bg-orange/15 text-orange border-orange/30',
-  'Web Security': 'bg-violet/15 text-violet border-violet/30',
-  Web: 'bg-violet/15 text-violet border-violet/30',
-  AI: 'bg-volt/15 text-volt border-volt/30',
-  'AI Security': 'bg-volt/15 text-volt border-volt/30',
-  Cloud: 'bg-sky-400/15 text-sky-400 border-sky-400/30',
-  'Cloud Security': 'bg-sky-400/15 text-sky-400 border-sky-400/30',
-  Security: 'bg-orange/15 text-orange border-orange/30',
+  CVE: 'bg-orange/15 text-accent-ink border-orange/30',
+  'Web Security': 'bg-violet/15 text-violet-ink border-violet/30',
+  Web: 'bg-violet/15 text-violet-ink border-violet/30',
+  AI: 'bg-volt/15 text-volt-ink border-volt/30',
+  'AI Security': 'bg-volt/15 text-volt-ink border-volt/30',
+  Cloud: 'bg-sky-400/15 text-sky-ink border-sky-400/30',
+  'Cloud Security': 'bg-sky-400/15 text-sky-ink border-sky-400/30',
+  Security: 'bg-orange/15 text-accent-ink border-orange/30',
 };
 
 function getTagStyle(tag: string): string {

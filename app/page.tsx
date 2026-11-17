@@ -26,7 +26,7 @@ export default async function HomePage() {
         <ExperienceSection />
         <ProjectsSection />
         {/* Merged Recognition anchor for Achievements + Credentials */}
-        <div id="recognition" className="scroll-mt-24">
+        <div id="recognition">
           <AchievementsSection />
           <CertificationsSection />
         </div>

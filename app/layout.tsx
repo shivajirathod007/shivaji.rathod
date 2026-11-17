@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { fontDisplay, fontBody, fontSerif, fontMono } from '@/lib/fonts';
 import './globals.css';
@@ -40,15 +40,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0f' },
-    { media: '(prefers-color-scheme: light)', color: '#f5f1e8' },
-  ],
-};
-
 const fontVariables = [
   fontDisplay.variable,
   fontBody.variable,
@@ -64,6 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={fontVariables}
     >
@@ -75,7 +67,7 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
-          disableTransitionOnChange={false}
+          disableTransitionOnChange
         >
           {children}
         </ThemeProvider>

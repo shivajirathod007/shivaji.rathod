@@ -1,6 +1,6 @@
 import { SectionLabel } from '@/components/SectionLabel';
 import { ScrollReveal } from '@/components/ScrollReveal';
-import { ExternalLink, CheckCircle2, Clock, Shield } from 'lucide-react';
+import { ExternalLink, CheckCircle2, Clock } from 'lucide-react';
 
 const COMPLETED = [
   {
@@ -37,14 +37,14 @@ const IN_PROGRESS = [
 
 export function CertificationsSection() {
   return (
-    <section id="certifications" className="py-28 border-t border-white/[0.06] relative">
-      <div className="mx-auto max-w-6xl px-6 sm:px-8">
-        <ScrollReveal className="mb-14">
+    <section id="certifications" className="section-space border-t border-border relative">
+      <div className="section-container">
+        <ScrollReveal className="section-intro">
           <SectionLabel number="06" text="CREDENTIALS &amp; AUDITS" />
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-fg tracking-tight">
+          <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Certifications &amp; Training
           </h2>
-          <p className="text-fg-muted mt-3 text-lg max-w-xl">
+          <p className="text-fg-muted mt-3 text-base sm:text-lg max-w-xl">
             Industry-standard certifications validating hands-on threat defense, forensics, and network security.
           </p>
         </ScrollReveal>
@@ -53,8 +53,8 @@ export function CertificationsSection() {
           {/* Completed */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <CheckCircle2 size={16} className="text-emerald-400" />
-              <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-emerald-400">
+              <CheckCircle2 size={16} className="text-volt-ink" />
+              <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-volt-ink">
                 Verified Certifications
               </h3>
             </div>
@@ -66,17 +66,17 @@ export function CertificationsSection() {
                   href={cert.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-4 rounded-2xl border border-white/[0.08] bg-[#0d0f18]/80 backdrop-blur-md p-4 sm:p-5 hover:border-emerald-500/40 hover:bg-emerald-500/[0.02] transition-all min-h-[56px]"
+                  className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-bg-surface p-4 sm:p-5 hover:border-emerald-500/40 hover:bg-emerald-500/[0.02] transition-all min-h-[56px]"
                 >
                   <div>
-                    <h4 className="text-base font-semibold text-fg group-hover:text-emerald-300 transition-colors">
+                    <h4 className="text-base font-semibold text-fg group-hover:text-volt-ink transition-colors">
                       {cert.name}
                     </h4>
                     <p className="font-mono text-xs text-fg-muted mt-0.5">{cert.issuer}</p>
                   </div>
                   <ExternalLink
                     size={16}
-                    className="text-fg-muted group-hover:text-emerald-400 transition-colors shrink-0"
+                    className="text-fg-muted group-hover:text-volt-ink transition-colors shrink-0"
                   />
                 </a>
               ))}
@@ -96,13 +96,13 @@ export function CertificationsSection() {
               {IN_PROGRESS.map((cert) => (
                 <div
                   key={cert.name}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-white/[0.06] border-dashed bg-white/[0.01] p-4 sm:p-5"
+                  className="flex items-center justify-between gap-4 rounded-2xl border border-border border-dashed bg-fg/[0.01] p-4 sm:p-5"
                 >
                   <div>
                     <h4 className="text-base font-medium text-fg-muted">{cert.name}</h4>
-                    <p className="font-mono text-xs text-fg-muted/60 mt-0.5">{cert.desc}</p>
+                    <p className="font-mono text-xs text-fg-muted mt-0.5">{cert.desc}</p>
                   </div>
-                  <span className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-white/[0.04] text-fg-muted border border-white/[0.08] shrink-0">
+                  <span className="font-mono text-[11px] px-2.5 py-1 rounded-md bg-fg/[0.04] text-fg-muted border border-border shrink-0">
                     {cert.target}
                   </span>
                 </div>
