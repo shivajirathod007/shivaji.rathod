@@ -9,11 +9,9 @@ const TIMELINE_DATA: TimelineEntry[] = [
     location: 'Pune, India',
     period: '2025 – Present',
     type: 'work',
-    meta: 'AI SECURITY INTERN',
     bullets: [
-      'Conduct AI security assessments, prompt-injection auditing, and vulnerability discovery on production enterprise models.',
-      'Assist Red Team operations simulating adversarial attacks against cloud-hosted microservices and auth endpoints.',
-      'Collaborate with development teams to implement zero-trust guardrails and automated security checks in CI/CD.',
+      'Audit production AI for prompt injection and other vulnerabilities.',
+      'Support cloud red-team exercises and help automate CI/CD security checks.',
     ],
   },
   {
@@ -22,10 +20,8 @@ const TIMELINE_DATA: TimelineEntry[] = [
     location: 'VIT Pune',
     period: '2024 – Present',
     type: 'leadership',
-    meta: 'CYBERSECURITY CO-HEAD',
     bullets: [
-      'Lead student workshops on web exploitation, CTF strategies, cloud security fundamentals, and defensive engineering.',
-      'Organized technical bootcamps reaching 400+ aspiring security researchers and engineers.',
+      'Lead security workshops and organize boot camps that have reached 400+ students.',
     ],
   },
   {
@@ -36,8 +32,7 @@ const TIMELINE_DATA: TimelineEntry[] = [
     type: 'work',
     meta: 'HALL OF FAME (P1)',
     bullets: [
-      'Recognised in NASA\'s VDP Hall of Fame for reporting a critical (P1) authentication bypass affecting NASA infrastructure.',
-      'Received official Letter of Recognition from NASA Security Operations.',
+      'Disclosed a critical (P1) authentication bypass and received a letter from NASA Security Operations.',
     ],
   },
   {
@@ -46,10 +41,8 @@ const TIMELINE_DATA: TimelineEntry[] = [
     location: 'Pune, India',
     period: '2024 – 2028',
     type: 'education',
-    meta: 'B.TECH 2028',
     bullets: [
-      'Computer Engineering student at VIT Pune focusing on Network Security, Cryptography, Distributed Systems, and Cloud Architecture.',
-      'Head Coordinator for the IEI National Conference 2025; active participant in national hackathons and CTF competitions.',
+      'Focus on network security, cryptography, distributed systems, and cloud architecture.',
     ],
   },
 ];
@@ -64,7 +57,7 @@ export function ExperienceSection() {
             Work &amp; Academic Journey
           </h2>
           <p className="text-fg-muted mt-3 text-base sm:text-lg max-w-xl">
-            From reporting P1 vulnerabilities in NASA infrastructure to building AI guardrails at Accion Labs.
+            Security research, engineering, and student leadership.
           </p>
         </ScrollReveal>
 

@@ -16,7 +16,7 @@ const MATRIX_ROWS: SkillMatrixRow[] = [
     title: 'Offensive Security & Red Teaming',
     subtitle: 'RESEARCH · EXPLOITATION · VDP',
     description:
-      'Vulnerability research, web and API exploitation, authentication bypass analysis, and OWASP Top 10 security auditing.',
+      'Find and validate web, API, and authentication flaws.',
     skills: ['Burp Suite', 'Caido', 'OWASP Top 10', 'Auth Bypass', 'API Security'],
     accent: '#f97316',
   },
@@ -24,7 +24,7 @@ const MATRIX_ROWS: SkillMatrixRow[] = [
     title: 'Cloud Security & Infrastructure',
     subtitle: 'CONTAINERS · LINUX · ZERO-TRUST',
     description:
-      'Hardened cloud deployments, Docker container isolation, Linux server hardening, zero-trust policies, and post-quantum CBOM.',
+      'Harden cloud workloads, containers, and Linux servers.',
     skills: ['AWS Security', 'Docker', 'Linux Hardening', 'Zero-Trust', 'Post-Quantum CBOM'],
     accent: '#38bdf8',
   },
@@ -32,7 +32,7 @@ const MATRIX_ROWS: SkillMatrixRow[] = [
     title: 'AI Security & LLM Defense',
     subtitle: 'PROMPT INJECTION · PII · LSTM',
     description:
-      'Auditing LLM prompt injections, real-time PII redaction proxies, machine learning anomaly detection, and AI threat modeling.',
+      'Audit LLMs for prompt injection and build tools that protect sensitive data.',
     skills: ['Prompt Auditing', 'PII Proxies', 'Threat Modeling', 'LSTM Anomaly', 'Scikit-learn'],
     accent: '#10b981',
   },
@@ -40,7 +40,7 @@ const MATRIX_ROWS: SkillMatrixRow[] = [
     title: 'Languages & Backend Systems',
     subtitle: 'FASTAPI · POSTGRESQL · CI/CD',
     description:
-      'Production-grade backend engineering with Python, FastAPI, Java, Node.js, PostgreSQL, and automated CI/CD security workflows.',
+      'Build backend services with automated security checks.',
     skills: ['Python', 'FastAPI', 'Java', 'Node.js', 'PostgreSQL', 'GitHub Actions'],
     accent: '#a855f7',
   },
@@ -48,7 +48,7 @@ const MATRIX_ROWS: SkillMatrixRow[] = [
     title: 'CS & Cryptographic Foundations',
     subtitle: 'NETWORKS · CRYPTO · PROTOCOLS',
     description:
-      'Deep systems foundations across computer networks, applied cryptography, network protocol analysis, and operating system internals.',
+      'Analyze network protocols and apply cryptography to real systems.',
     skills: ['Computer Networks', 'Applied Cryptography', 'Operating Systems', 'TCP/IP', 'Linux Internals'],
     accent: '#ef4444',
   },
@@ -59,7 +59,7 @@ export function SkillsGrouped() {
     <div className="w-full divide-y divide-border border-y border-border mt-8">
       {MATRIX_ROWS.map((row, i) => (
         <ScrollReveal key={row.title} delay={i * 0.06}>
-          <div className="group relative py-8 sm:py-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 transition-colors duration-300 hover:bg-fg/[0.02] px-4 -mx-4 rounded-2xl">
+          <div className="group relative py-6 sm:py-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 transition-colors duration-300 hover:bg-fg/[0.02] px-4 -mx-4 rounded-2xl">
             {/* Left: Huge Title + Descriptive Subtext (Matching Reference) */}
             <div className="min-w-0 max-w-xl lg:flex-1">
               <div className="flex items-center gap-3 mb-2">

@@ -15,15 +15,15 @@ export function ContactSection() {
               Let&apos;s work together
             </h2>
             <p className="text-fg-muted leading-relaxed mb-8 max-w-md">
-              I am open to security engineering roles, collaborative research, responsible disclosure, and interesting problems in cloud and application security.
+              Open to security engineering roles, research collaborations, and responsible disclosure.
             </p>
 
             <div className="space-y-3">
               {[
                 { icon: Mail, label: 'shivaji.rathod.in@gmail.com', href: 'mailto:shivaji.rathod.in@gmail.com' },
-                { icon: GitBranch, label: 'github.com/shivajirathod007', href: 'https://github.com/shivajirathod007' },
-                { icon: Link, label: 'linkedin.com/in/shivaji-rathod007', href: 'https://linkedin.com/in/shivaji-rathod007' },
-                { icon: ExternalLink, label: 'TryHackMe: im.rahasya', href: 'https://tryhackme.com/p/im.rahasya' },
+                { icon: GitBranch, label: 'GitHub', href: 'https://github.com/shivajirathod007' },
+                { icon: Link, label: 'LinkedIn', href: 'https://linkedin.com/in/shivaji-rathod007' },
+                { icon: ExternalLink, label: 'TryHackMe', href: 'https://tryhackme.com/p/im.rahasya' },
               ].map((item) => (
                 <a
                   key={item.label}

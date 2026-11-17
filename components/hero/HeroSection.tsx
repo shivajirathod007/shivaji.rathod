@@ -32,20 +32,8 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-svh flex items-center justify-center overflow-hidden pt-28 pb-12 sm:pt-32 sm:pb-20"
+      className="relative min-h-svh flex items-center justify-center overflow-hidden pt-24 pb-12 sm:pt-28 sm:pb-16"
     >
-      {/* ── Ambient Background Lighting ── */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-        style={{
-          background: `
-            radial-gradient(ellipse 65% 55% at 75% 45%, rgba(239, 68, 68, 0.12) 0%, transparent 60%),
-            radial-gradient(ellipse 55% 50% at 20% 60%, rgba(249, 115, 22, 0.08) 0%, transparent 60%)
-          `,
-        }}
-      />
-
       <div className="relative z-10 mx-auto w-full max-w-[1440px] px-(--section-gutter) lg:px-12">
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-10 items-center">
 
@@ -70,23 +58,15 @@ export function HeroSection() {
             </motion.div>
 
             {/* Editorial Dual-Type Subtitle */}
-            <motion.div variants={fadeUp} className="mb-6">
+            <motion.div variants={fadeUp} className="mb-7 sm:mb-8">
               <p className="font-display text-2xl sm:text-3xl font-bold text-fg tracking-tight leading-snug">
-                I break things to find what&apos;s exploitable.
+                Finding vulnerabilities.
                 <br />
-                <span className="font-serif italic font-normal text-fg/90 text-2xl sm:text-3xl">
-                  also help to fix them.
+                <span className="font-serif italic font-normal text-accent-ink text-3xl sm:text-4xl">
+                  Building defenses.
                 </span>
               </p>
             </motion.div>
-
-            {/* Description Text matching CV exactly */}
-            <motion.p
-              variants={fadeUp}
-              className="text-base sm:text-lg text-fg-muted leading-relaxed mb-9 max-w-xl font-normal"
-            >
-              Computer Engineering student at <strong className="text-fg font-medium">VIT Pune</strong> and Security Engineering Intern at <strong className="text-fg font-medium">Accion Labs</strong>. Recognised in NASA&apos;s VDP Hall of Fame for reporting a critical (P1) authentication bypass.
-            </motion.p>
 
             {/* High-Contrast Action Buttons in Sentence Case */}
             <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8 sm:mb-12">

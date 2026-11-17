@@ -32,8 +32,10 @@
   --amber-ink: #fcd34d;
 
   --section-gutter: clamp(1rem, 4vw, 2rem);
-  --section-space: clamp(4rem, calc(2.4rem + 4vw), 7rem);
+  --section-space: clamp(3.5rem, calc(2rem + 4vw), 6rem);
   --anchor-offset: 6rem;
+  --page-warm: color-mix(in srgb, var(--orange) 10%, transparent);
+  --page-cool: color-mix(in srgb, var(--violet) 11%, transparent);
 }
 
 .light {
@@ -53,6 +55,8 @@
   --violet-ink: #4338ca;
   --sky-ink: #036282;
   --amber-ink: #92400e;
+  --page-warm: color-mix(in srgb, var(--orange) 9%, transparent);
+  --page-cool: color-mix(in srgb, var(--violet) 8%, transparent);
 }
 
 /* Tag chip colours */
@@ -105,7 +109,13 @@ html {
 }
 
 body {
+  position: relative;
   background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse min(50rem, 86vw) 38rem at 80% 19rem, var(--page-warm), transparent 78%),
+    radial-gradient(ellipse min(44rem, 94vw) 44rem at 7% 25%, var(--page-cool), transparent 76%),
+    radial-gradient(ellipse min(50rem, 96vw) 50rem at 95% 54%, var(--page-warm), transparent 75%),
+    radial-gradient(ellipse min(54rem, 96vw) 42rem at 15% 85%, var(--page-cool), transparent 78%);
   color: var(--fg);
   font-family: var(--font-body, "Instrument Sans", sans-serif);
   font-size: 1rem;
@@ -113,6 +123,32 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.site-curve {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: max(0px, calc((100% - 82rem) / 2));
+  z-index: 1;
+  width: clamp(0.875rem, calc((100% - 72rem) / 2 + var(--section-gutter)), 4.5rem);
+  height: 100%;
+  pointer-events: none;
+}
+
+.site-curve-track,
+.site-curve-progress {
+  stroke: url("#site-curve-gradient");
+  stroke-linecap: round;
+}
+
+.site-curve-track {
+  opacity: 0.22;
+}
+
+.site-curve-progress {
+  stroke-width: 1.5;
+  stroke-dasharray: 1 1;
+  opacity: 0.85;
 }
 
 * {
@@ -167,7 +203,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @utility section-intro {
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: clamp(1.75rem, 4vw, 3rem);
 }
 
 .mobile-drawer {
@@ -220,6 +256,11 @@ article [data-theme] span[style] {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .site-curve-progress {
+    stroke-dashoffset: 0;
+    opacity: 0.5;
   }
 
   *, *::before, *::after, *::backdrop {

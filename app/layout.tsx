@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
+import { ScrollCurve } from '@/components/ScrollCurve';
 import { fontDisplay, fontBody, fontSerif, fontMono } from '@/lib/fonts';
 import './globals.css';
 
@@ -69,6 +70,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          <ScrollCurve />
           {children}
         </ThemeProvider>
       </body>

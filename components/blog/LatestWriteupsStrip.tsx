@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { SectionLabel } from '@/components/SectionLabel';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import { BlogPostCard } from './BlogPostCard';
 
 interface PostMeta {
@@ -20,12 +22,10 @@ export function LatestWriteupsStrip({ posts }: LatestWriteupsStripProps) {
   return (
     <section id="writeups" className="section-space border-t border-border">
       <div className="section-container">
-        <div className="flex items-end justify-between mb-10">
+        <ScrollReveal className="section-intro flex items-end justify-between gap-4">
           <div>
-            <p className="font-mono text-xs font-semibold uppercase tracking-widest text-accent-ink mb-2">
-              07 / WRITEUPS
-            </p>
-            <h2 className="font-display text-3xl font-bold text-fg">Latest Research</h2>
+            <SectionLabel number="07" text="WRITEUPS" />
+            <h2 className="font-display section-title font-bold text-fg">Latest Research</h2>
           </div>
           <Link
             href="/blog"
@@ -33,7 +33,7 @@ export function LatestWriteupsStrip({ posts }: LatestWriteupsStripProps) {
           >
             View all <ArrowRight size={14} />
           </Link>
-        </div>
+        </ScrollReveal>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <BlogPostCard key={post.slug} post={post} />

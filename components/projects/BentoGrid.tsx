@@ -1,18 +1,13 @@
 'use client';
 
 import { SpotlightBorderCard } from './SpotlightBorderCard';
-import { PrivateBadge } from './PrivateBadge';
 
 const PROJECTS = [
   {
     id: 'trinetra',
     title: 'TRINETRA',
     subtitle: 'Exposure Intelligence Platform',
-    description: [
-      'Architected a hybrid local-cloud backend to scan and map an enterprise\'s public-facing infrastructure and potential shadow assets.',
-      'Analyzed TLS, API, and SSH configurations to generate Cryptographic Bills of Materials (CBOM).',
-      'Applied Mosca\'s inequality to estimate post-quantum cryptography migration timelines.',
-    ],
+    description: 'Maps exposed infrastructure, inventories cryptography (CBOM), and estimates post-quantum migration timelines.',
     tech: ['Python', 'FastAPI', 'SSLyze'],
     date: 'Feb – Jul 2026',
     link: 'https://github.com/shivajirathod007/TRINETRA',
@@ -23,10 +18,7 @@ const PROJECTS = [
     id: 'ai-rakshak',
     title: 'AI-RAKSHAK',
     subtitle: 'Privacy-Preserving LLM Proxy',
-    description: [
-      'Designed a hybrid architecture to intercept and sanitize user prompts before transmission to external LLMs.',
-      'Implemented local PII detection with deterministic placeholders so raw sensitive data is never sent externally.',
-    ],
+    description: 'Replaces sensitive data with deterministic placeholders before prompts reach external LLMs.',
     tech: ['FastAPI', 'SQLite', 'Custom NER'],
     date: 'Dec 2025 – Apr 2026',
     link: 'https://github.com/KVarad777/EDI-Prompt-Privacy-Preserving-System',
@@ -37,10 +29,7 @@ const PROJECTS = [
     id: 'awaf',
     title: 'AWAF',
     subtitle: 'Adaptive Web Application Firewall',
-    description: [
-      'Built a firewall using LSTM and Autoencoder models for anomaly-based network threat detection.',
-      'Showcased to 800+ attendees at DIPEX 2025.',
-    ],
+    description: 'Detects network anomalies with LSTM and autoencoder models. Showcased to 800+ attendees at DIPEX 2025.',
     tech: ['Node.js', 'Python', 'TensorFlow'],
     date: 'Sep 2024 – Apr 2025',
     link: 'https://github.com/shivajirathod007/Adaptive-WAF',
@@ -51,10 +40,7 @@ const PROJECTS = [
     id: 'sanketdarshak',
     title: 'SanketDarshak',
     subtitle: 'Maharashtra Police CMS',
-    description: [
-      'Led the team building a case-management system piloted at Warje Police Station.',
-      'Implemented role-based access control and automated database triggers.',
-    ],
+    description: 'Built a case-management system with role-based access, piloted at Warje Police Station.',
     tech: ['Flutter', 'Node.js', 'Supabase'],
     date: 'Sep 2025 – Mar 2026',
     isPrivate: true,

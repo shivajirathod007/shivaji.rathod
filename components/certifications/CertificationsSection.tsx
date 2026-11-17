@@ -44,10 +44,7 @@ export function CertificationsSection() {
           <h2 className="font-display section-title font-bold text-fg tracking-tight">
             Certifications &amp; Training
           </h2>
-          <p className="text-fg-muted mt-3 text-base sm:text-lg max-w-xl">
-            Industry-standard certifications validating hands-on threat defense, forensics, and network security.
-          </p>
-        </ScrollReveal>
+          </ScrollReveal>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Completed */}

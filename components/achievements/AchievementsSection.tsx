@@ -9,7 +9,7 @@ const ACHIEVEMENTS = [
     accent: '#f97316',
     title: 'NASA VDP — P1 Critical Disclosure',
     description:
-      'Discovered and responsibly disclosed a P1 (Critical) authentication-bypass vulnerability affecting NASA infrastructure. Received an official Letter of Recognition and Hall of Fame induction.',
+      'Reported a critical authentication bypass and received a Letter of Recognition.',
     badge: 'NASA Hall of Fame',
   },
   {
@@ -18,7 +18,7 @@ const ACHIEVEMENTS = [
     accent: '#38bdf8',
     title: 'Cybersecurity Co-Head, GDGOC',
     description:
-      'Lead the cybersecurity track at Google Developer Groups on Campus (VIT Pune), conducting practical workshops on offensive security, CTFs, and defense.',
+      'Lead hands-on security and CTF workshops at VIT Pune.',
     badge: 'GDG Lead',
   },
   {
@@ -27,7 +27,7 @@ const ACHIEVEMENTS = [
     accent: '#10b981',
     title: 'National Finalist — India Innovates 2026',
     description:
-      'Selected as a National Finalist at India Innovates 2026, presenting innovations at Bharat Mandapam, New Delhi.',
+      'Presented at Bharat Mandapam, New Delhi.',
     badge: 'National Finalist',
   },
   {
@@ -36,7 +36,7 @@ const ACHIEVEMENTS = [
     accent: '#a855f7',
     title: 'NHA Hackathon 2026 — Built AXIOM',
     description:
-      'Competed in the National Health Authority (NHA) Hackathon 2026, designing and presenting the AXIOM security framework.',
+      'Designed and presented the AXIOM security framework.',
     badge: null,
   },
   {
@@ -45,7 +45,7 @@ const ACHIEVEMENTS = [
     accent: '#f97316',
     title: 'PNB Cybersecurity Hackathon 2026',
     description:
-      'Competed in the Punjab National Bank Cybersecurity Hackathon, tackling enterprise-grade banking threat scenarios.',
+      'Tackled security scenarios for banking systems.',
     badge: null,
   },
   {
@@ -54,7 +54,7 @@ const ACHIEVEMENTS = [
     accent: '#38bdf8',
     title: 'UIDAI Data Hackathon 2026 — Team Lead',
     description:
-      'Led the engineering and security team at the UIDAI National Data Hackathon, architecting secure data pipeline solutions.',
+      'Led the team designing secure data pipelines.',
     badge: 'Team Lead',
   },
   {
@@ -63,7 +63,7 @@ const ACHIEVEMENTS = [
     accent: '#10b981',
     title: 'Head Coordinator — IEI National Conference 2025',
     description:
-      'Head Coordinator for the Institution of Engineers (India) National Conference 2025, orchestrating operations alongside senior defense officials.',
+      'Managed conference operations alongside senior defense officials.',
     badge: 'Head Coordinator',
   },
 ];
@@ -78,7 +78,7 @@ export function AchievementsSection() {
             Honors &amp; Accomplishments
           </h2>
           <p className="text-fg-muted mt-3 text-base sm:text-lg max-w-xl">
-            National finalist appearances, community leadership, and official security disclosures.
+            Responsible disclosures, national competitions, and community leadership.
           </p>
         </ScrollReveal>
 

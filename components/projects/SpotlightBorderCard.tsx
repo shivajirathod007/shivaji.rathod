@@ -6,7 +6,7 @@ import { PrivateBadge } from './PrivateBadge';
 export interface SpotlightBorderCardProps {
   title: string;
   subtitle?: string;
-  description: string[];
+  description: string;
   tech: string[];
   date: string;
   link?: string;
@@ -90,14 +90,7 @@ export function SpotlightBorderCard({
 
         <p className="font-mono text-xs text-fg-muted mb-4">{date}</p>
 
-        <ul className="space-y-2 mb-6">
-          {description.map((d, i) => (
-            <li key={i} className="text-sm text-fg-muted leading-relaxed flex items-start gap-2.5">
-              <span className="text-accent-ink mt-1.5 shrink-0 text-xs">◆</span>
-              <span>{d}</span>
-            </li>
-          ))}
-        </ul>
+        <p className="mb-5 max-w-prose text-sm leading-relaxed text-fg-muted">{description}</p>
       </div>
 
       <div className="relative z-10 pt-4 border-t border-border flex flex-wrap gap-2">

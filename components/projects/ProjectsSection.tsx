@@ -14,7 +14,7 @@ export function ProjectsSection() {
                 Systems &amp; Security Tools
               </h2>
               <p className="text-fg-muted mt-3 text-base sm:text-lg max-w-xl">
-                Production-tested tools spanning exposure intelligence, post-quantum cryptography, AI prompt sanitization, and adaptive defense.
+                Tools for exposure mapping, prompt privacy, and threat detection.
               </p>
             </div>
             <a
